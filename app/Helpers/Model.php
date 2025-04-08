@@ -1,5 +1,7 @@
 <?php
 use App\Models\{Province,Regency,District,User,payment,Transaction,Promo};
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 // Ambil nama provinsi by id
 if (! function_exists('getNameProvinsi'))
@@ -88,9 +90,11 @@ if (! function_exists('getCountPelanggan'))
 {
     function getCountPelanggan($pemilik_id=0)
     {
-      return Transaction::where('pemilik_id', $pemilik_id)
-      ->selectRaw('COUNT(DISTINCT user_id) as total_pelanggan')
-      ->value('total_pelanggan');
+      DB::table('transactions')
+        ->join('transaction_user', 'transactions.id', '=', 'transaction_user.transaction_id')
+        ->where('transactions.pemilik_id', $pemilik_id)
+        ->selectRaw('COUNT(DISTINCT transaction_user.user_id) as total_pelanggan')
+        ->value('total_pelanggan');
     }
 }
 
@@ -125,7 +129,7 @@ if (! function_exists('cekPromo'))
     function cekPromo()
     {
       $model = new Promo;
-      $data  = $model::where('pemilik_id',Auth::id())->get();
+      $data  = $model::where('pemilik_id', Auth::id())->get();
       foreach ($data as $datas) {
         if (
           Carbon\carbon::parse($datas->end_date_promo)->format('d') <= Carbon\carbon::now()->format('d') &&
@@ -145,13 +149,19 @@ if (! function_exists('cekPemesanan'))
 {
     function cekPemesanan()
     {
-      $model = new Transaction;
-      $data  = $model::with('payment')->where('user_id',Auth::id())->get();
-      foreach ($data as $datas) {
-        if ($datas->payment->status == 'Pending') {
-          return $data;
-        }
+      $data = Transaction::with('payment')
+        ->whereHas('users', function ($query) {
+            $query->where('user_id', Auth::id());
+        })
+        ->get();
+
+      foreach ($data as $transaction) {
+          if ($transaction->payment?->status === 'Pending') {
+              return $transaction;
+          }
       }
+
+      return null;
     }
 }
 

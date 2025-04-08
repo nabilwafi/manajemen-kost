@@ -6,14 +6,16 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\{Transaction,Review};
 use App\Http\Requests\ReviewRequest;
-use Auth;
-use Session;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 class MyRoomsController extends Controller
 {
     // My Room
     public function myroom()
     {
-      $kamar = Transaction::where('user_id', Auth::id())->whereNotIn('status',['Pending'])->get();
+      $kamar = Transaction::whereHas('users', function ($query) {
+        $query->where('user_id', Auth::id());
+      })->with('kondisiBarangMasuk', 'kondisiBarangKeluar', 'users')->whereNotIn('status',['Pending'])->get();
       return view('user.kamar.index', compact('kamar'));
     }
 

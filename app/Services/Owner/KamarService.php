@@ -77,6 +77,7 @@ class KamarService {
       $kamar->kategori        = $params->kategori;
       $kamar->book            = $params->book;
       $kamar->bg_foto         = $nama_foto;
+      $kamar->status          = 1;
       $kamar->province_id     = $params->province_id;
       $kamar->regency_id      = $params->regency_id;
       $kamar->district_id     = $params->district_id;
@@ -131,7 +132,6 @@ class KamarService {
           foreach($params->addfoto as $value) {
             $foto_kamar = $value['foto_kamar'];
             $nama_foto = time()."_".$foto_kamar->getClientOriginalName();
-            // isi dengan nama folder tempat kemana file diupload
             $tujuan_upload = 'public/images/foto_kamar';
             $foto_kamar->storeAs($tujuan_upload,$nama_foto);
 
@@ -324,8 +324,8 @@ class KamarService {
   public function delFotoKamar($image)
   {
     $img = fotokamar::where('foto_kamar', $image)->first();
-      if(File::exists(public_path('storage/images/foto_kamar/'. $img->foto_kamar))){
-          File::delete(public_path('storage/images/foto_kamar/'. $img->foto_kamar));
+      if(File::exists(public_path('storage/public/images/foto_kamar/'. $img->foto_kamar))){
+          File::delete(public_path('storage/public/images/foto_kamar/'. $img->foto_kamar));
           $img->delete();
       }else{
           dd('File does not exists.');

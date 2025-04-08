@@ -75,7 +75,9 @@ class HomeController extends Controller
 
                 return view('pemilik.index', \compact('aktif','total','pendapatan','pendapatanMonth','pendapatanYear','pendapatanPrevYear','jenis_kamar','stok_kamar','sisa_kamar','favorite'));
             } elseif(Auth::user()->role == 'Pencari') {
-                $aktif = Transaction::where('user_id',Auth::id())->where('status','Proses')->count();
+                $aktif = Transaction::whereHas('users', function ($query) {
+                    $query->where('user_id', Auth::id());
+                })->where('status','Proses')->count();
                 return view('user.index', \compact('aktif'));
             } else {
                 abort(404);

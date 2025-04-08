@@ -48,6 +48,7 @@
                       <th class="text-nowrap">Nama Kamar</th>
                       <th class="text-nowrap">Harga</th>
                       <th class="text-nowrap">Keterangan</th>
+                      <th class="text-nowrap">Dokumen perlu ditandatangani</th>
                       <th class="text-nowrap">Status</th>
                       <th class="text-nowrap">Action</th>
                     </tr>
@@ -66,14 +67,39 @@
                         <td>{{rupiah($item->kamar->harga_kamar)}}</td>
                         <td>{{$item->lama_sewa}} Bulan</td>
                         <td>
+                          @if ($item->status == "Proses In")
+                            @if ($item->kondisiBarangMasuk)
+                            <div>
+                              <a target="_blank" href="/generate-surat-keterangan-masuk/{{$item->id}}">Lihat Form Masuk</a>
+                            </div>
+                            @endif
+                            
+                            @if ($item->users[0]->id === Auth::id() && count($item->payment) < 1)
+                              <a href="/user/proses-in-kondisi/{{$item->id}}">Isi Data Form</a>
+                            @endif
+                          @elseif ($item->status == "Proses Out")
+                          @if ($item->kondisiBarangKeluar)
+                          <a target="_blank" href="/generate-surat-keterangan-keluar/{{$item->id}}">Lihat Form</a>
+                          @else
+                          <a href="/user/proses-out-kondisi/{{$item->id}}">Isi Data Form</a>
+                          @endif
+                          @else
+                          -
+                          @endif
+                        </td>
+                        <td>
                           @if ($item->status == 'Proses')
                             <span class="badge badge-primary">Kamar Aktif</span>
                           @elseif($item->status == 'Done')
                             <span class="badge badge-info">Sewa Selesai</span>
-                          @elseif($item->status == 'Cancel')
+                            @elseif($item->status == 'Cancel')
                             <span class="badge badge-warning">Sewa Batal</span>
-                          @elseif($item->status == 'Reject')
+                            @elseif($item->status == 'Reject')
                             <span class="badge badge-danger">Sewa Ditolak</span>
+                            @elseif($item->status == "Proses In")
+                            <span class="badge badge-info">Proses In</span>
+                            @elseif($item->status == "Proses Out")
+                            <span class="badge badge-info">Proses Out</span>
                           @endif
                         </td>
                         <td>

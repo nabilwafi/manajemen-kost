@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
     <meta name="description" content="@yield('description')">
-    <meta name="keywords" content="Kost Kita, cari kos di Kost Kita, aplikasi pencari kos">
+    <meta name="keywords" content="Narali House, cari kos di Narali House, aplikasi pencari kos">
     <meta property="og:image" content="@yield('image') ">
     <meta name="author" content="Arfiyan Wahyu Pratama">
     <title>@yield('title')</title>

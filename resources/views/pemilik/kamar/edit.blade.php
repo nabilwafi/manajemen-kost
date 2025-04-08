@@ -261,7 +261,8 @@
                       @foreach ($edit->fotoKamar as $foto)
                         <div class="col-lg-1 col-xl-1 col-2">
                             <label class="col-form-label">Foto Kamar</label> <br>
-                            <img src="{{asset('storage/images/foto_kamar/' .$foto->foto_kamar)}}" style="width: 80px">
+                            <img src="{{asset('storage/public/images/foto_kamar/' .$foto->foto_kamar)}}" style="width: 80px">
+
                             <a href="{{url('pemilik/delete/foto-kamar', $foto->foto_kamar)}}" class="btn btn-danger btn-sm">Delete</a>
                         </div>
                       @endforeach

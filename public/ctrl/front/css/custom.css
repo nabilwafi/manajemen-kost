@@ -1,19 +1,23 @@
-.datepicker td, .datepicker th {
+.datepicker td,
+.datepicker th {
     width: 2.5rem;
     height: 2.5rem;
     font-size: 0.85rem;
 }
 
-#datepicker{
-  width: 70%;
-  font-size: medium;
+#datepicker {
+    width: 70%;
+    font-size: medium;
 }
 
 #tampil {
-  display: none;
+    display: none;
+}
+
+#tampil_user {
+    display: none;
 }
 
 #show {
-  display: none;
+    display: none;
 }
-

@@ -6,7 +6,7 @@
                     <div class="card-body p-sm-4 p-2">
                         <h1 class="white">Mau Cari Kos ?</h1>
                         <p class="card-text mb-2">
-                            Lebih mudah pesan dan sewa di Kost Kita.
+                            Lebih mudah pesan dan sewa di Narali House.
                         </p>
                         <form action="{{url('')}}" method="GET">
                             <fieldset class="form-group position-relative has-icon-left mb-0">

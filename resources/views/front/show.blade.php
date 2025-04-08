@@ -14,7 +14,7 @@
 @endsection
 
 @section('image')
-  {{asset('storage/images/bg_foto/' .$kamar->bg_foto)}}
+  {{asset('storage/public/images/bg_foto/' .$kamar->bg_foto)}}
 @endsection
 
 @section('title')
@@ -44,7 +44,7 @@
             <div class="swiper-wrapper">
               @foreach ($kamar->fotoKamar as $foto)
                 <div class="swiper-slide">
-                  <img class="img-fluid" src="{{asset('storage/images/foto_kamar/'. $foto->foto_kamar)}}" alt="banner">
+                  <img class="img-fluid" src="{{asset('storage/public/images/foto_kamar/'. $foto->foto_kamar)}}" alt="banner">
                 </div>
               @endforeach
             </div>
@@ -233,13 +233,33 @@
                         <div class="col-md-6 mt-1">
                         <select name="lama_sewa" id="lamasewa" class="form-control DropChange">
                         <option>Lama Sewa</option>
-                        <option value="1">1 Bulan</option>
-                        <option value="3">3 Bulan</option>
+                        <option value="6">6 Bulan</option>
+                        <option value="12">1 Tahun</option>
                         </select>
                         </div>
                     </div>
-                    <small>Kamu bisa mengajukan kos 2 bulan dari sekarang.</small>
+
+                    <div class="form-group mt-1">
+                      <label>Apakah berdua?</label><br>
+                      <label class="radio-inline">
+                          <input type="checkbox" name="berdua" value="1" id="berdua"> Ya
+                      </label>
+                  </div>
                 </div>
+            </div>
+
+            <div class="card">
+              <div class="card-body" id="tampil_user">
+                <div class="form-group" id="user-list">
+                  <label for="user_id">Pilih User Teman</label>
+                  <select name="teman_id" id="user_id" class="form-control">
+                      <option value="">-- Pilih User --</option>
+                      @foreach ($users as $user)
+                          <option value="{{ $user->id }}">{{ $user->name }}</option>
+                      @endforeach
+                  </select>
+                </div>
+              </div>
             </div>
 
             <div class="card">
@@ -249,7 +269,6 @@
                         <p>Harga Sewa <br>
                         Biaya Admin <br>
                         Deposit <br>
-                        Point
                         </p>
                     </div>
                     <div>
@@ -257,28 +276,10 @@
                         <span id="sewakamar"></span> <br>
                         Rp. {{rupiah($kamar->biaya_admin)}} <br>
                         Rp. {{rupiah($kamar->deposit)}} <br>
-                        + 2 Points
                         </p>
                         <input type="hidden" class="DropChange" id="depost" value="{{$kamar->deposit}}">
                         <input type="hidden" class="DropChange" id="biayadmin" value="{{$kamar->biaya_admin}}">
-                        @auth
-                        <input type="hidden" class="DropChange" id="points" value="{{calculatePointUser(Auth::id())}}">
-                        @endauth
                     </div>
-                    </div>
-                    <div class="mb-1 d-flex justify-content-between">
-                    @auth
-                    <div>
-                        <div class="custom-control custom-switch custom-switch-danger switch-md mr-2 mb-1">
-                        <input type="checkbox" name="credit" class="custom-control-input" id="useCredit" value="false">
-                        <label class="custom-control-label" for="useCredit">
-                        </label>
-                        </div>
-                    </div>
-                    <div>
-                    {{getPointUser(Auth::id())}} Points ( {{rupiah(calculatePointUser(Auth::id()))}} )
-                    </div>
-                    @endauth
                     </div>
                     <hr>
                     <h5 style="font-weight: bold">Keterangan</h5>

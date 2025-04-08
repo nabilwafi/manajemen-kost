@@ -172,7 +172,7 @@
                       @csrf
                       @method('PUT')
                       <div class="row">
-                        <div class="col-12">
+                        <div class="col-sm-12 col-md-6">
                           <div class="form-group">
                             <div class="controls">
                               <label for="Nama Bank">Nama</label>
@@ -181,11 +181,46 @@
                           </div>
                         </div>
 
-                        <div class="col-12">
+                        <div class="col-sm-12 col-md-6">
                           <div class="form-group">
                             <div class="controls">
                               <label for="Email">Email</label>
                               <input type="email" name="email" value="{{Auth::user()->email}}" class="form-control" placeholder="Email">
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-sm-12 col-md-6">
+                          <div class="form-group">
+                            <div class="controls">
+                              <label for="agama">Agama</label>
+                              <select name="agama" class="form-control">
+                                @php
+                                  $listAgama = ['Islam', 'Kristen Protestan', 'Kristen Katolik', 'Hindu', 'Buddha', 'Konghucu', 'Lainnya'];
+                                  $agamaUser = Auth::user()->agama ?? '';
+                                @endphp
+                                @foreach ($listAgama as $agama)
+                                  <option value="{{ $agama }}" {{ $agamaUser === $agama ? 'selected' : '' }}>{{ $agama }}</option>
+                                @endforeach
+                              </select>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-sm-12 col-md-6">
+                          <div class="form-group">
+                            <div class="controls">
+                              <label for="Email">No. KTP (NIK)</label>
+                              <input type="test" name="no_ktp" value="{{Auth::user()->no_ktp}}" class="form-control" placeholder="Nik">
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-12">
+                          <div class="form-group">
+                            <div class="controls">
+                              <label for="nomor wa">Alamat</label>
+                              <input type="text" name="alamat_ktp" value="{{Auth::user()->alamat_ktp}}" class="form-control">
                             </div>
                           </div>
                         </div>
@@ -199,7 +234,125 @@
                           </div>
                         </div>
 
+                        <div class="col-12 my-2">
+                          <h6>Kontak Darurat</h6>
+                        </div>
+
+                        <div class="col-sm-12 col-md-6">
+                          <div class="form-group">
+                            <div class="controls">
+                              <label for="nomor wa">Nama Keluarga</label>
+                              <input type="text" name="nama_keluarga" value="{{Auth::user()->nama_keluarga}}" class="form-control">
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-sm-12 col-md-6">
+                          <div class="form-group">
+                            <div class="controls">
+                              <label for="nomor wa">Alamat Keluarga</label>
+                              <input type="text" name="alamat_keluarga" value="{{Auth::user()->alamat_keluarga}}" class="form-control">
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-sm-12 col-md-6">
+                          <div class="form-group">
+                            <div class="controls">
+                              <label for="nomor wa">No. Kontak Darurat</label>
+                              <input type="number" name="kontak_darurat" value="{{Auth::user()->kontak_darurat ?? '0'}}" class="form-control">
+                            </div>
+                          </div>
+                        </div>
+
+                        @php
+                            $hubunganList = [
+                                'Ibu Kandung',
+                                'Ayah Kandung',
+                                'Saudara Kandung',
+                                'Pasangan',
+                                'Teman Dekat',
+                                'Kerabat',
+                                'Wali',
+                                'Atasan Kantor',
+                                'Rekan Kerja',
+                                'Lainnya',
+                            ];
+
+                            $selectedHubungan = old('hubungan_kontak', $user->hubungan_kontak ?? '');
+                        @endphp
+
+                        <div class="form-group col-sm-12 col-md-6">
+                            <label for="hubungan_kontak">Hubungan Kontak</label>
+                            <select name="hubungan_kontak" id="hubungan_kontak" class="form-control form-select">
+                                <option value="">-- Pilih Hubungan --</option>
+                                @foreach ($hubunganList as $hubungan)
+                                    <option value="{{ $hubungan }}" {{ $selectedHubungan === $hubungan ? 'selected' : '' }}>
+                                        {{ $hubungan }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="col-12 my-2">
+                          <h6>Data Lainnya</h6>
+                        </div>
+
+                        <div class="col-sm-12 col-md-6">
+                          <div class="form-group">
+                            <div class="controls">
+                              <label for="nomor wa">Pekerjaan</label>
+                              <input type="text" name="pekerjaan" value="{{Auth::user()->pekerjaan}}" class="form-control">
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-sm-12 col-md-6">
+                          <div class="form-group">
+                            <div class="controls">
+                              <label for="nomor wa">Nama Kampus/Kantor</label>
+                              <input type="text" name="nama_kampus_kantor" value="{{Auth::user()->nama_kampus_kantor}}" class="form-control">
+                            </div>
+                          </div>
+                        </div>
+
                         <div class="col-12">
+                          <div class="form-group">
+                            <div class="controls">
+                              <label for="nomor wa">Alamat Kampus/Kantor</label>
+                              <input type="text" name="alamat_kampus_kantor" value="{{Auth::user()->alamat_kampus_kantor}}" class="form-control">
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-12">
+                          <div class="form-group">
+                            <div class="controls">
+                              <label for="nomor wa">Penyakit yang diderita</label>
+                              <input type="text" name="penyakit" value="{{Auth::user()->penyakit}}" class="form-control">
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-md-4 col-sm-12">
+                          <div class="form-group">
+                            <div class="controls">
+                              <label for="nomor wa">{{Auth::user()->buku_nikah == null ? 'Buku Nikah' : 'Update Buku Nikah'}}</label>
+                              <input type="file" name="buku_nikah" class="form-control">
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-md-4 col-sm-12">
+                          <div class="form-group">
+                            <div class="controls">
+                              <label for="nomor wa">{{Auth::user()->ktp_upload == null ? 'KTP' : 'Update KTP'}}</label>
+                              <input type="file" name="ktp_upload" class="form-control">
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-md-4 col-sm-12">
                           <div class="form-group">
                             <div class="controls">
                               <label for="nomor wa">{{Auth::user()->foto == null ? 'Foto Profile' : 'Update Foto Profile'}}</label>

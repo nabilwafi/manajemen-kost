@@ -9,7 +9,7 @@ use App\Http\Requests\KamarRequest;
 use App\Http\Controllers\Controller;
 use App\Services\Owner\KamarService;
 use Illuminate\Support\Facades\Session;
-use App\Models\{Province,regency,District};
+use App\Models\{Province,regency,District, Transaction};
 
 class KamarController extends Controller
 {
@@ -123,6 +123,26 @@ class KamarController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function verifikasiFormIn($transaction_id)
+    {
+      $transaction = Transaction::where('id', $transaction_id)->first();
+
+      $transaction->status = 'Proses';
+      $transaction->save();
+
+      return redirect()->back()->with('success', 'Status Telah Berubah');
+    }
+
+    public function verifikasiFormOut($transaction_id)
+    {
+      $transaction = Transaction::where('id', $transaction_id)->first();
+
+      $transaction->status = 'Done';
+      $transaction->save();
+
+      return redirect()->back()->with('success', 'Status Telah Berubah');
     }
 
     // Select Regency

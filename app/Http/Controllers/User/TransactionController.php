@@ -19,7 +19,8 @@ class TransactionController extends Controller
     public function tagihan()
     {
       try {
-        $tagihan = Transaction::where('user_id', Auth::id())->get();
+        $tagihan = Payment::where('user_id', Auth::id())->get();
+
         return view('user.payment.index', compact('tagihan'));
       } catch (ErrorException $e) {
         throw new ErrorException($e->getMessage());
@@ -56,21 +57,22 @@ class TransactionController extends Controller
           $kamar->key                 = 'confirm-payment-' .$key;
           $kamar->transaction_number  = 'BOOK-' .$number .$id .'-' .$date;
           $kamar->kamar_id            = $room->id;
-          $kamar->user_id             = Auth::id();
           $kamar->pemilik_id          = $room->user_id;
           $kamar->lama_sewa           = $request->lama_sewa;
           if ($request->lama_sewa == 1) {
             $kamar->hari              = 30;
           } elseif($request->lama_sewa == 3) {
             $kamar->hari              = 90;
+          } elseif($request->lama_sewa == 6) {
+            $kamar->hari              = 180;
+          } elseif ($request->lama_sewa == 12) {
+            $kamar->hari              = 360;
           }
-
-          $points = calculatePointUser(Auth::id());
 
           $kamar->harga_kamar         =  $room->promo != null && $room->promo->status == '1' && $room->promo->end_date_promo >= carbon::now()->format('d F, Y') ? $room->promo->harga_promo : $room->harga_kamar;
           if ($request->credit) {
             $totalharga               =  $room->promo != null && $room->promo->status == '1' && $room->promo->end_date_promo >= carbon::now()->format('d F, Y') ? $room->promo->harga_promo : $room->harga_kamar * $request->lama_sewa;
-            $kamar->harga_total       = ($totalharga + $number) - $points;
+            $kamar->harga_total       = ($totalharga + $number);
           } else {
             $harga_total       =  $room->promo != null && $room->promo->status == '1' && $room->promo->end_date_promo >= carbon::now()->format('d F, Y') ? $room->promo->harga_promo : $room->harga_kamar * $request->lama_sewa;
             $kamar->harga_total = $harga_total + $number;
@@ -80,7 +82,12 @@ class TransactionController extends Controller
           $kamar->end_date_sewa       = Carbon::parse($request->tgl_sewa)->addDays($kamar->hari)->format('d-m-Y');
           $kamar->save();
 
-          // jika sukses Simpan ke table payment
+          $kamar->users()->attach(Auth::id());
+
+          if($request->has('teman_id')) {
+            $kamar->users()->attach($request->teman_id);
+          }
+
           if ($kamar) {
             $payment = new payment;
             $payment->transaction_id    = $kamar->id;
@@ -112,7 +119,7 @@ class TransactionController extends Controller
       try {
         $transaksi = Transaction::where('key',$key)->first();
         $bank = Bank::all();
-        if ($transaksi->payment->status == 'Pending') {
+        if ($transaksi->latestPayment && $transaksi->latestPayment->status == 'Pending') {
           return view('user.payment.show', compact('transaksi','bank'));
         } else {
           Session::flash('error','Pembayaran Sudah Terkirim');
@@ -141,7 +148,7 @@ class TransactionController extends Controller
           $tujuan_upload = 'public/images/bukti_bayar';
           $foto->storeAs($tujuan_upload,$bukti_bayar);
 
-          $payment = payment::where('transaction_id',$id)->first();
+          $payment = payment::where('transaction_id',$id)->latest()->first();
           $payment->type_transfer     = 'BANK';
           $payment->nama_bank         = $request->nama_bank;
           $payment->nama_pemilik      = $request->nama_pemilik;

@@ -24,7 +24,7 @@
 
 <!-- BEGIN: Body-->
 
-<body class="{{auth::user()->role == 'Pencari' ? 'horizontal' : 'vertical'}}-layout {{auth::user()->role == 'Pencari' ? 'horizontal' : 'vertical'}}-menu-modern dark-layout 2-columns  navbar-sticky footer-static  " data-open="hover" data-menu="{{auth::user()->role == 'Pencari' ? 'horizontal' : 'vertical'}}-menu{{auth::user()->role == 'Pemilik' ? '-modern' : ''}}" data-col="2-columns" data-layout="dark-layout">
+<body class="{{auth::user()->role == 'Pencari' ? 'horizontal' : 'vertical'}}-layout {{auth::user()->role == 'Pencari' ? 'horizontal' : 'vertical'}}-menu-modern 2-columns  navbar-sticky footer-static " data-open="hover" data-menu="{{auth::user()->role == 'Pencari' ? 'horizontal' : 'vertical'}}-menu{{auth::user()->role == 'Pemilik' ? '-modern' : ''}}" data-col="2-columns">
 
   <!-- BEGIN: Header-->
   @include('layouts.backend.header')
@@ -79,16 +79,6 @@
 
   <div class="sidenav-overlay"></div>
   <div class="drag-target"></div>
-
-  <!-- BEGIN: Footer-->
-  <footer class="footer footer-static footer-light">
-    <p class="clearfix blue-grey lighten-2 mb-0">
-      <span class="float-md-left d-block d-md-inline-block mt-25">COPYRIGHT &copy; 2021<a class="text-bold-800 grey darken-2" href="/" target="_blank">Pap!Kos,</a>All rights Reserved</span>
-      <span class="float-md-right d-none d-md-block">Build with<i class="feather icon-heart pink"></i> <a href="arfiyan">Arfiyan Wahyu Pratama</a></span>
-      <button class="btn btn-primary btn-icon scroll-top" type="button"><i class="feather icon-arrow-up"></i></button>
-    </p>
-  </footer>
-  <!-- END: Footer-->
 
 
   {{-- Javascript --}}

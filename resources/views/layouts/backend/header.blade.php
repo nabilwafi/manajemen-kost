@@ -52,9 +52,9 @@
               </div>
               <span>
                 @if (Auth::user()->foto == NULL)
-                <img class="round" src="{{asset('assets/images/profile/profile.jpg')}}" alt="avatar" height="40" width="40">
+                <img class="round" src="{{asset('assets/public/images/profile/profile.jpg')}}" alt="avatar" height="40" width="40">
                 @else
-                <img class="round" src="{{ url('storage/images/foto_profile/'. Auth::user()->foto) }}" alt="avatar" height="40" width="40">
+                <img class="round" src="{{ url('storage/public/images/foto_profile/'. Auth::user()->foto) }}" alt="avatar" height="40" width="40">
                 @endif
               </span>
             </a>
@@ -78,13 +78,13 @@
 </nav>
 @elseif(auth::user()->role == 'Pencari')
 <div class="content-overlay"></div>
-<nav class="header-navbar navbar-expand-lg navbar navbar-with-menu navbar-fixed navbar-brand-center">
+<nav class="header-navbar navbar-expand-lg navbar navbar-light navbar-with-menu navbar-fixed navbar-brand-center">
   <div class="navbar-header d-xl-block d-none">
     <ul class="nav navbar-nav flex-row">
       <li class="nav-item">
         <a class="navbar-brand" href="{{url('/home')}}">
           <div class="brand-logo"></div>
-          <h2 class="brand-text mb-0">Kost Kita</h2>
+          <img width="100" src="./logo.png" alt="">
         </a>
       </li>
     </ul>
@@ -123,7 +123,12 @@
                 @if (Auth::user()->foto == NULL)
                 <img class="round" src="{{asset('assets/images/profile/profile.jpg')}}" alt="avatar" height="40" width="40">
                 @else
-                <img class="round" src="{{ asset('storage/images/foto_profile/'. Auth::user()->foto) }}" alt="avatar" height="40" width="40">
+                <div class="position-relative">
+                  @if(Auth::user()->getIsFullyVerifiedAttribute())
+                  <img class="object-fit-cover position-absolute" style="bottom: -5px; right: -5px" src="/frontend/images/verified.png" height="20" width="20" />
+                  @endif
+                  <img class="round" style="object-fit: cover" src="{{ asset('storage/public/images/foto_profile/'. Auth::user()->foto) }}" alt="avatar" height="40" width="40">
+                </div>
                 @endif
               </span>
             </a>

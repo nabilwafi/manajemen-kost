@@ -3,8 +3,9 @@
 namespace App\Services\Owner;
 use ErrorException;
 use App\Models\Transaction;
-use Auth;
-use Session;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 use Carbon\Carbon;
 
 class PenghuniService {
@@ -14,9 +15,11 @@ class PenghuniService {
   {
     try {
       if (!empty(Auth::user()->kamar->user_id)) {
-        $penghuni = Transaction::where('status','Proses')->where('pemilik_id', Auth::user()->kamar->user_id)->orderBy('created_at','DESC')->get();
+        $users = User::where('role', 'Pencari')->orderBy('created_at', 'DESC')->get();
 
-        return view('pemilik.penghuni.index', compact('penghuni'));
+        $penghuni = Transaction::whereIn('status',['Proses', 'Proses In', 'Proses Out'])->where('pemilik_id', Auth::user()->kamar->user_id)->orderBy('created_at','DESC')->get();
+
+        return view('pemilik.penghuni.index', compact('penghuni', 'users'));
       } else {
         Session::flash('error','Data Kamar Masih Kosong');
         return redirect('/home');

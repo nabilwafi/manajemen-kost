@@ -2,11 +2,12 @@
 
 namespace App\Services\Owner;
 use ErrorException;
-use Auth;
-use Session;
 use Carbon\carbon;
 use App\Models\{Transaction,kamar,payment,User};
-use DB;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
+
 class BookingListService {
 
   // Booking List
@@ -14,7 +15,7 @@ class BookingListService {
   {
     try {
       if (!empty(Auth::user()->kamar->id)) {
-        $booking = Transaction::with('payment')->where('pemilik_id', Auth::id())->orderBy('created_at','DESC')->get();
+        $booking = Transaction::with('payment')->where('pemilik_id', Auth::id())->with('users')->orderBy('created_at','DESC')->get();
         return view('pemilik.booking.index', compact('booking'));
       } else {
         Session::flash('error','Data Kamar Masih Kosong');
@@ -47,21 +48,25 @@ class BookingListService {
     try {
       DB::beginTransaction();
       $confirm = Transaction::where('key',$key)->first();
-      $confirm->status      = 'Proses';
+
+      if($confirm->kondisiBarangMasuk) {
+        $confirm->status      = "Proses";
+
+        $confirm->tgl_sewa = $confirm->end_date_sewa;
+        $confirm->end_date_sewa = Carbon::parse($confirm->end_date_sewa)->addDays($confirm->hari)->format('d-m-Y');
+      }else {
+        $confirm->status      = 'Proses In';
+      }
+
       $confirm->updated_at  = Carbon::now();
       $confirm->save();
 
-      if ($confirm) {
+      if ($confirm && $confirm->kondisiBarangMasuk) {
         $kamar = kamar::where('id', $confirm->kamar_id)->first();
         $kamar->sisa_kamar = $kamar->sisa_kamar - 1;
         $kamar->save();
-        if ($kamar) {
-          // Add credit point
-          $point = User::where('id', $confirm->user_id)->firstOrFail();
-          $point->credit  = $point->credit + 2;
-          $point->save();
-        }
       }
+
       DB::commit();
       Session::flash('success','Konfirmasi Pembayaran Sukses.');
       return redirect('/pemilik/booking-list');

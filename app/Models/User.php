@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
@@ -17,7 +16,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password','role','credit','no_wa'
+        'name', 'email', 'password','role','credit','no_wa', 'alamat_ktp', 'kontak_darurat', 'hubungan_kontak', 'pekerjaan', 'penyakit', 'agama'
     ];
 
     /**
@@ -58,6 +57,11 @@ class User extends Authenticatable
       return $this->hasMany(Transaction::class,'pemilik_id','id');
     }
 
+    public function transaksi_user()
+    {
+      return $this->belongsToMany(Transaction::class);
+    }
+
     public function testimoni()
     {
       return $this->hasOne(Testimoni::class);
@@ -73,4 +77,47 @@ class User extends Authenticatable
       return $this->hasMany(SimpanKamar::class)->limit(4);
     }
 
+    public function getIncompleteFields(): array
+    {
+      $requiredFields = [
+          'no_wa',
+          'foto',
+          'alamat_ktp',
+          'kontak_darurat',
+          'hubungan_kontak',
+          'pekerjaan',
+          'penyakit',
+          'agama',
+          'buku_nikah',
+          'ktp_upload',
+          'no_ktp',
+          'nama_kampus_kantor',
+          'alamat_kampus_kantor',
+          'nama_keluarga',
+          'alamat_keluarga'
+      ];
+
+      $incomplete = [];
+
+      foreach ($requiredFields as $field) {
+          if (empty($this->$field)) {
+              $incomplete[] = $field;
+          }
+      }
+
+      return $incomplete;
+    }
+
+    public function isProfileComplete(): bool
+    {
+        return count($this->getIncompleteFields()) === 0;
+    }
+
+    public function getIsFullyVerifiedAttribute(): bool
+    {
+        $verified = explode(',', $this->verified ?? '');
+        $required = ['ktp', 'buku_nikah', 'profile'];
+
+        return count(array_intersect($required, $verified)) === count($required);
+    }
 }

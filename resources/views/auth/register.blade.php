@@ -39,22 +39,6 @@
                         </div>
                     </fieldset>
 
-                    <fieldset class="form-label-group form-group position-relative has-icon-left">
-                        <select name="role" id="role" class="form-control @error('role') is-invalid @enderror">
-                          <option value="">-- Mendaftar Sebagai --</option>
-                          <option value="Pemilik">Pemilik Kost</option>
-                          <option value="Pencari">Pencari Kost</option>
-                        </select>
-                        @error('role')
-                          <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                          </span>
-                        @enderror
-                        <div class="form-control-position">
-                            <i class="feather icon-user"></i>
-                        </div>
-                    </fieldset>
-
                     <fieldset class="form-label-group position-relative has-icon-left">
                         <input type="password" name="password" class="form-control  @error('password') is-invalid @enderror" id="password" placeholder="Password">
                         @error('password')

@@ -8,6 +8,7 @@ use App\Models\Promo;
 use App\Models\SimpanKamar;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 class FrontendsController extends Controller
@@ -48,7 +49,8 @@ class FrontendsController extends Controller
             })
             ->where('slug', $slug)->first();
         $fav = SimpanKamar::where('kamar_id', $kamar->id)->where('user_id', Auth::id())->first();
-        
+
+        $users = User::where('role', 'Pencari')->where('id', '<>', Auth::id())->get()->filter(fn($user) => $user->getIsFullyVerifiedAttribute());;
         
         $relatedKos = kamar::with(['promo' => function ($a) {
             $a->where('end_date_promo', '>=', carbon::now()->format('d F, Y'));
@@ -58,7 +60,7 @@ class FrontendsController extends Controller
         ->where('is_active', 1)
         ->limit(4)->get();
         
-        return view('front.show', compact('kamar', 'relatedKos', 'fav'));
+        return view('front.show', compact('kamar', 'relatedKos', 'fav', 'users'));
     }
 
     // Show semua kamar

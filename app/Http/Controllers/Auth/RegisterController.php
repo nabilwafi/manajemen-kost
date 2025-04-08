@@ -9,7 +9,7 @@ use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Spatie\Permission\Models\Role;
-use DB;
+use Illuminate\Support\Facades\DB;
 class RegisterController extends Controller
 {
     /*
@@ -53,7 +53,6 @@ class RegisterController extends Controller
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:50'],
             'email' => ['required', 'string', 'email', 'max:50', 'unique:users'],
-            'role' => ['required'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ],
 
@@ -63,7 +62,6 @@ class RegisterController extends Controller
             "email.required"     => 'Email Tidak Boleh Kosong.',
             "email.max"          => 'Email Tidak Boleh Lebih Dari 50 Karakter',
             "email.unique"       => 'Email Sudah Terdaftar.',
-            "role.required"      => 'Jenis Pendaftaran Harus Di Pilih.',
             "password.required"  => 'Password Tidak Boleh Kosong.',
             "password.min"       => 'Password Minimal 8 Karakter.',
             "password.confirmed" => 'Password Tidak Sama.',
@@ -85,11 +83,11 @@ class RegisterController extends Controller
         $user =  User::create([
             'name' => $data['name'],
             'email' => $data['email'],
-            'role' => $data['role'],
+            'role' => 'Pencari',
             'password' => Hash::make($data['password']),
         ]);
 
-        $user->assignRole($data['role']);
+        $user->assignRole('Pencari');
         DB::commit();
         return $user;
       } catch (ErrorException $e) {

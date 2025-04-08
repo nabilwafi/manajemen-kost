@@ -3,8 +3,9 @@
     <ul class="nav navbar-nav flex-row">
       <li class="nav-item">
         <a class="navbar-brand" href="/">
-          <div class="brand-logo"></div>
-          <h2>Kost Kita</h2>
+          <div class="brand-logo">
+          </div>
+          <img width="100" src="./logo.png" alt="">
         </a>
       </li>
     </ul>
@@ -13,15 +14,6 @@
     <div class="navbar-container content">
       <div class="navbar-collapse" id="navbar-mobile">
         <div class="mr-auto float-left bookmark-wrapper d-flex align-items-center">
-          <ul class="nav navbar-nav ">
-            <li class="nav-item mobile-menu d-none mr-auto"><a class="nav-link nav-menu-main menu-toggle hidden-xs" href="#"><i class="ficon feather icon-menu"></i></a></li>
-            <li class="mr-2 d-none d-xl-block">
-              <a href="" style="color: black"><i class="feather icon-airplay" data-toggle="tooltip" data-placement="bottom" title="Download Aplikasi"></i> Download Aplikasi</a>
-            </li>
-            <li class="d-none d-xl-block">
-              <a href="{{url('show-all-room')}}" style="color: black"><i class="feather icon-calendar" data-toggle="tooltip" data-placement="top" title="Booking Kamar"></i> Booking Kamar</a>
-            </li>
-          </ul>
         </div>
         <ul class="nav navbar-nav float-right">
           <li class="dropdown dropdown-notification nav-item">
@@ -99,7 +91,9 @@
                 @if (Auth::user()->foto == NULL)
                 <img class="round" src="{{asset('assets/images/profile/profile.jpg')}}" alt="avatar" height="40" width="40">
                 @else
-                <img class="round" src="{{ asset('storage/images/foto_profile/'. Auth::user()->foto) }}" alt="avatar" height="40" width="40">
+                <div class="position-relative">
+                  <img class="round object-fit-cover" src="{{ asset('storage/public/images/foto_profile/'. Auth::user()->foto) }}" alt="avatar" height="40" width="40">
+                </div>
                 @endif
               </span>
             </a>

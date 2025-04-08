@@ -45,8 +45,20 @@
                         <td>{{$no}}</td>
                         <td>{{$bookings->transaction_number}}</td>
                         <td>{{$bookings->kamar->nama_kamar}}</td>
-                        <td>{{getNameUser($bookings->user_id)}}</td>
-                        <td>{{$bookings->user->no_wa ?? 0}}</td>
+                        <td>
+                          <ul>
+                            @foreach ($bookings->users as $user)
+                            <li>{{$user->name}}</li>
+                            @endforeach
+                          </ul>
+                        </td>
+                        <td>
+                          <ul>
+                            @foreach ($bookings->users as $user)
+                            <li>{{$user->no_wa ?? "0"}}</li>
+                            @endforeach
+                          </ul>
+                        </td>
                         <td>{{$bookings->lama_sewa}} Bulan</td>
                         <td>{{$bookings->payment->status}}</td>
                         <td>

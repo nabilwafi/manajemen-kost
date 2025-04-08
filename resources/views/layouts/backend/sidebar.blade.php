@@ -5,7 +5,7 @@
             <li class="nav-item mr-auto">
                 <a class="navbar-brand" href="{{url('/home')}}">
                     <div class="brand-logo"></div>
-                    <h2 class="brand-text mb-0">Kost Kita</h2>
+                    <h2 class="brand-text mb-0">Narali House</h2>
                 </a>
             </li>
             <li class="nav-item nav-toggle"><a class="nav-link modern-nav-toggle pr-0" data-toggle="collapse"><i class="feather icon-x d-block d-xl-none font-medium-4 primary toggle-icon"></i><i class="toggle-icon feather icon-disc font-medium-4 d-none d-xl-block primary" data-ticon="icon-disc"></i></a></li>
@@ -38,7 +38,7 @@
             <li class="nav-item mr-auto">
                 <a class="navbar-brand" href="{{url('/home')}}">
                     <div class="brand-logo"></div>
-                    <h2 class="brand-text mb-0">Kost Kita</h2>
+                    <h2 class="brand-text mb-0">Narali House</h2>
                 </a>
             </li>
             <li class="nav-item nav-toggle"><a class="nav-link modern-nav-toggle pr-0" data-toggle="collapse"><i class="feather icon-x d-block d-xl-none font-medium-4 primary toggle-icon"></i><i class="toggle-icon feather icon-disc font-medium-4 d-none d-xl-block primary" data-ticon="icon-disc"></i></a></li>
@@ -59,9 +59,6 @@
                 <ul class="menu-content">
                     <li class="{{Request::is('pemilik/kamar') ? 'active' : ''}}">
                         <a href="{{route('kamar.index')}}"><i></i><span class="menu-item" data-i18n="Data Kamar">Data Kamar</span></a>
-                    </li>
-                    <li class="{{Request::is('pemilik/promo') ? 'active' : ''}}">
-                        <a href="{{route('kamar.promo')}}"><i></i><span class="menu-item" data-i18n="Promo">Promo Kamar</span></a>
                     </li>
                     <li class="{{Request::is('pemilik/kamar/create') ? 'active' : ''}}">
                         <a href="{{route('kamar.create')}}"><i></i><span class="menu-item" data-i18n="Tambah">Tambah Kamar</span></a>
@@ -95,7 +92,7 @@
                 <li class="nav-item mr-auto">
                     <a class="navbar-brand" href="{{url('/home')}}">
                         <div class="brand-logo"></div>
-                        <h2 class="brand-text mb-0">Pap!Kos</h2>
+                        <img width="100" src="./logo.png" alt="">
                     </a>
                 </li>
                 <li class="nav-item nav-toggle">
@@ -115,6 +112,7 @@
                     </a>
                 </li>
 
+                @if(Auth::user()->role == "Pencari" && (Auth::user()->isProfileComplete() && Auth::user()->getIsFullyVerifiedAttribute()))
                 <li class="nav-item">
                     <a class="nav-link" href="{{url('user/myroom')}}"><i class="feather icon-square"></i><span>Kamar Saya</span></a>
                 </li>
@@ -122,6 +120,7 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/"><i class="feather icon-square"></i><span>Pilih Kamar</span></a>
                 </li>
+                @endif
             </ul>
         </div>
         <!-- /horizontal menu content-->

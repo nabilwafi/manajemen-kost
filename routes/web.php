@@ -12,6 +12,10 @@ use App\Http\Controllers\Owner\ProfileController;
 use App\Http\Controllers\Owner\PromoController;
 use App\Http\Controllers\User\MyRoomsController;
 use App\Http\Controllers\User\TransactionController;
+use App\Http\Controllers\Owner\UserDocumentController;
+use App\Http\Controllers\Owner\UserVerificationController;
+use App\Http\Controllers\Pdf\SuratController;
+use App\Http\Controllers\RoomConditionController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 /*
@@ -32,6 +36,8 @@ Auth::routes();
 
 ///// FRONTEND \\\\\
 // Homepage
+Route::get('/generate-surat-keterangan-masuk/{transaction_id}', [SuratController::class, 'generate_masuk']);
+Route::get('/generate-surat-keterangan-keluar/{transaction_id}', [SuratController::class, 'generate_keluar']);
 
 Route::get('/', [FrontendsController::class, "homepage"]); // homepage
 Route::get('/room/{slug}', [FrontendsController::class, "showkamar"]); //Show Kamar
@@ -62,6 +68,8 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('kamar', KamarController::class); //Data Kamar
     Route::get('is-aktif-kamar', [KamarController::class, "statusKamar"]);
+    Route::patch('verifikasi-form-in/{transaction_id}', [KamarController::class, "verifikasiFormIn"]);
+    Route::patch('verifikasi-form-out/{transaction_id}', [KamarController::class, "verifikasiFormOut"]);
     Route::prefix('delete')->group(function(){
       Route::get('fasilitas-kamar/{id}', [KamarController::class, "delFasilitasKamarService"]);
       Route::get('fasilitas-kamar-mandi/{id}', [KamarController::class, "delFasilitasKamarMandiService"]);
@@ -69,6 +77,10 @@ Route::middleware('auth')->group(function () {
       Route::get('area/{id}', [KamarController::class, "delAreaService"]);
       Route::get('foto-kamar/{foto_kamar}', [KamarController::class, "delFotoKamarService"]);
     });
+
+    // Penghuni
+    Route::get('/download/{type}/{id}', [UserDocumentController::class, 'download'])->name('user.document.download');
+    Route::post('/update-verified/{id}', [UserVerificationController::class, 'update'])->name('update.verified');
 
     Route::get('promo', [PromoController::class, "promo"])->name('kamar.promo'); // Promo Kamar Index
     Route::get('promo/create', [PromoController::class, "promoCreate"])->name('kamar.promo.create'); // Promo Kamar Create
@@ -98,6 +110,12 @@ Route::middleware('auth')->group(function () {
     Route::get('myroom', [MyRoomsController::class, "myroom"]); // Kamar aktif
     Route::get('review/{key}', [MyRoomsController::class, "review"]); // Review Kamar
     Route::post('review-proses/{key}', [MyRoomsController::class, "reviewProses"]); // Review Kamar
+
+    Route::get('/proses-in-kondisi/{transaction_id}', [RoomConditionController::class, "formMasuk"]);
+    Route::post('/proses-in-kondisi/{transaction_id}', [RoomConditionController::class, "storeMasuk"]);
+    
+    Route::get('/proses-out-kondisi/{transaction_id}', [RoomConditionController::class, "formKeluar"]);
+    Route::post('/proses-out-kondisi/{transaction_id}', [RoomConditionController::class, "storeKeluar"]);
   });
 
   ////// GLOBAL ROUTE \\\\\\

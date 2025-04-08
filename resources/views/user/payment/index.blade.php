@@ -68,24 +68,25 @@
                       $no=1;
                     @endphp
                     @foreach ($tagihan as $tagihans)
-                      @if ($tagihans->payment->status == 'Pending')
-                        <tr>
-                          <td>{{$no}}</td>
-                          <td>{{$tagihans->transaction_number}}</td>
-                          <td>{{$tagihans->kamar->nama_kamar}}</td>
-                          <td>{{rupiah($tagihans->harga_total)}}</td>
-                          <td>{{$tagihans->lama_sewa}} Bulan</td>
-                          <td>{{$tagihans->payment->status}}</td>
-                          <td>
-                            @if ($tagihans->payment->status == 'Pending')
-                              <a href="{{url('user/room', $tagihans->key)}}">Konfirmasi</a>
-                            @endif
-                          </td>
-                        </tr>
-                      @endif
-                    @php
-                      $no++;
-                    @endphp
+                        @if ($tagihans->status == 'Pending')
+                          <tr>
+                            <td>{{$no}}</td>
+                            <td>{{$tagihans->transaction->transaction_number}}</td>
+                            <td>{{$tagihans->transaction->kamar->nama_kamar}}</td>
+                            <td>{{rupiah($tagihans->transaction->harga_total)}}</td>
+                            <td>{{$tagihans->transaction->lama_sewa}} Bulan</td>
+                            <td>{{$tagihans->status}}</td>
+                            <td>
+                              @if ($tagihans->status == 'Pending')
+                                <a href="{{url('user/room', $tagihans->transaction->key)}}">Konfirmasi</a>
+                              @endif
+                            </td>
+                          </tr>
+                        @endif
+
+                        @php
+                          $no++;
+                        @endphp
                     @endforeach
                   </tbody>
                 </table>
