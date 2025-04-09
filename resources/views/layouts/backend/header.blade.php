@@ -51,16 +51,11 @@
                 <span class="user-status">{{Auth::user()->role}}</span>
               </div>
               <span>
-                @if (Auth::user()->foto == NULL)
-                <img class="round" src="{{asset('assets/public/images/profile/profile.jpg')}}" alt="avatar" height="40" width="40">
-                @else
-                <img class="round" src="{{ url('storage/public/images/foto_profile/'. Auth::user()->foto) }}" alt="avatar" height="40" width="40">
-                @endif
+                <img class="round" src="{{asset('./logo.png')}}" alt="avatar" height="40" width="40">
               </span>
             </a>
             <div class="dropdown-menu dropdown-menu-right">
               <a class="dropdown-item" href="{{url('profile')}}"><i class="feather icon-user"></i>Profile</a>
-              {{-- <a class="dropdown-item" href=""><i class="feather icon-settings"></i> Reset Password</a> --}}
               <div class="dropdown-divider"></div>
               <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
                           document.getElementById('logout-form').submit();">

@@ -24,12 +24,12 @@ class SuratController extends Controller
 
     public function generate_keluar($transaction_id)
     {
-        $transaction = Transaction::with('user', 'kamar', 'pemilik')->findOrFail($transaction_id);
+        $transaction = Transaction::with('users', 'kamar', 'pemilik')->findOrFail($transaction_id);
 
         $pdf = Pdf::loadView('pdf.surat_keterangan_keluar', [
             'transaction' => $transaction,
         ])->setPaper('a4', 'portrait');
 
-        return $pdf->stream('Surat_Keterangan_Keluar_' . $transaction->user->name . '.pdf');
+        return $pdf->stream('Surat_Keterangan_Keluar_' . $transaction->kamar->nama_kamar . '.pdf');
     }
 }

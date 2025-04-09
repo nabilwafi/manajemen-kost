@@ -65,8 +65,9 @@ Route::middleware('auth')->group(function () {
 
   ////// PEMILIK \\\\\\
   Route::prefix('pemilik')->middleware('role:Pemilik')->group(function () {
-
+  
     Route::resource('kamar', KamarController::class); //Data Kamar
+    Route::get('/room/{key}/detail', [KamarController::class, "detail"]); //Data Kamar
     Route::get('is-aktif-kamar', [KamarController::class, "statusKamar"]);
     Route::patch('verifikasi-form-in/{transaction_id}', [KamarController::class, "verifikasiFormIn"]);
     Route::patch('verifikasi-form-out/{transaction_id}', [KamarController::class, "verifikasiFormOut"]);
@@ -97,7 +98,8 @@ Route::middleware('auth')->group(function () {
     Route::put('payment-confirm/{key}', [BookListController::class, "proses_confirm_payment"]); // Proses Confirm Payment
     Route::get('reject-payment', [BookListController::class, "reject_confirm_payment"]); // Reject Payment
     Route::get('penghuni', [PenghuniController::class, "penghuni"]); // Penghuni
-    Route::get('done-sewa', [BookListController::class, "doneSewa"]); //Done Sewa
+    Route::get('penghuni/{id}/detail', [PenghuniController::class, "detail"]); // Penghuni
+    Route::get('done-sewa', [BookListController::class, "doneSewa"]); // Done Sewa
   });
 
 
@@ -108,6 +110,7 @@ Route::middleware('auth')->group(function () {
     Route::put('konfirmasi-payment/{id}', [TransactionController::class, "update"]); // Konfirmasi Payment
     Route::get('tagihan', [TransactionController::class, "tagihan"]); // Ambil data tagihan
     Route::get('myroom', [MyRoomsController::class, "myroom"]); // Kamar aktif
+    Route::get('history', [TransactionController::class, "history"]); // Kamar aktif
     Route::get('review/{key}', [MyRoomsController::class, "review"]); // Review Kamar
     Route::post('review-proses/{key}', [MyRoomsController::class, "reviewProses"]); // Review Kamar
 

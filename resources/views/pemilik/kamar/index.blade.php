@@ -48,7 +48,10 @@
                       <td>{{$item->jenis_kamar}}</td>
                       <td>{{$item->stok_kamar}}</td>
                       <td>{{$item->sisa_kamar}}</td>
-                      <td>{{rupiah($item->harga_kamar)}}</td>
+                      <td>
+                        <div>Sendiri: {{rupiah($item->harga_kamar)}}</div>
+                        <div>Berdua: {{rupiah($item->harga_kamar_berdua)}}</div>
+                      </td>
                       <td><span class="btn btn-{{$item->is_active == 0 ? 'primary' : 'success'}} btn-sm text-white">{{$item->is_active == 1 ? 'Aktif' : 'Tidak Aktif'}}</span></td>
                       <td class="text-center">
                         <a href="{{url('room', $item->slug)}}" class="btn btn-info btn-sm">Show</a>

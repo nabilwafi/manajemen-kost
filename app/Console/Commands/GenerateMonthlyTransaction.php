@@ -38,13 +38,11 @@ class GenerateMonthlyTransaction extends Command
         
 
         foreach ($transactions as $transaction) {
-            $transaction->status = 'Pending';
-            $transaction->save();
-
             Payment::create([
                 'transaction_id' => $transaction->id,
                 'user_id' => $transaction->users[0]->id,
                 'kamar_id' => $transaction->kamar_id,
+                'end_date_sewa' => $transaction->end_date_sewa,
                 'status' => 'Pending',
                 'payment_date' => now(),
             ]);

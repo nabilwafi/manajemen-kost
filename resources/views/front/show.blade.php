@@ -145,8 +145,6 @@
         <p style="font-size: 13px">
           <ol>
             <li>{{$kamar->listrik == 0 ? 'Tidak Termasuk Listrik' : 'Termasuk Listrik'}} <br></li>
-            <li>Tidak Ada Minimum Pembayaran <br></li>
-            <li>Diskon Jutaan</li>
           </ol>
           <hr style="border-top: 1px dashed ">
         </p>
@@ -222,9 +220,15 @@
                 <div class="card-body">
                     <form action="{{route('sewa.store', $kamar->id)}}" method="post">
                     @csrf
-                    <span> {{rupiah($kamar->promo != null && $kamar->promo->end_date_promo >= Carbon\carbon::now()->format('d F, Y') ? $kamar->promo->harga_promo : $kamar->harga_kamar)}} / Bulan </span> <span style="font-size: 9px"> {{$kamar->promo != null && $kamar->promo->end_date_promo >= Carbon\carbon::now()->format('d F, Y') ? 'Harga Promo' : ''}} </span>
+                    @error('teman_id')
+                    <div class="invalid-feedback">
+                      <strong>{{ $message }}</strong>
+                    </div>
+                    @enderror
+
+                    <span id="harga_tertera" data-harga-berdua={{ $kamar->harga_kamar_berdua }} data-harga-sendiri={{ $kamar->harga_kamar }}> {{rupiah($kamar->promo != null && $kamar->promo->end_date_promo >= Carbon\carbon::now()->format('d F, Y') ? $kamar->promo->harga_promo : $kamar->harga_kamar)}} / Bulan </span> <span style="font-size: 9px"> {{$kamar->promo != null && $kamar->promo->end_date_promo >= Carbon\carbon::now()->format('d F, Y') ? 'Harga Promo' : ''}} </span>
                     <select class="DropChange" id="hargakamar" hidden>
-                        <option value="{{$kamar->promo != null && $kamar->promo->end_date_promo >= Carbon\carbon::now()->format('d F, Y') ? $kamar->promo->harga_promo : $kamar->harga_kamar}}" selected></option>
+                        <option value="{{ $kamar->harga_kamar }}" selected></option>
                     </select>
                     <div class="row">
                         <div class="col-md-6 mt-1">
@@ -239,12 +243,12 @@
                         </div>
                     </div>
 
-                    <div class="form-group mt-1">
-                      <label>Apakah berdua?</label><br>
-                      <label class="radio-inline">
-                          <input type="checkbox" name="berdua" value="1" id="berdua"> Ya
+                    <div class="form-check mt-2">
+                      <input class="form-check-input" name="berdua" value="1" id="berdua" type="checkbox">
+                      <label class="form-check-label" for="berdua" {{old('berdua') ? "checked" : ""}}>
+                        Berdua
                       </label>
-                  </div>
+                    </div>
                 </div>
             </div>
 
@@ -258,6 +262,11 @@
                           <option value="{{ $user->id }}">{{ $user->name }}</option>
                       @endforeach
                   </select>
+                  @error('teman_id')
+                        <div class="invalid-feedback">
+                          <strong>{{ $message }}</strong>
+                        </div>
+                      @enderror
                 </div>
               </div>
             </div>
@@ -267,14 +276,12 @@
                     <div class="d-flex justify-content-between">
                     <div>
                         <p>Harga Sewa <br>
-                        Biaya Admin <br>
                         Deposit <br>
                         </p>
                     </div>
                     <div>
                         <p style="color: black">
                         <span id="sewakamar"></span> <br>
-                        Rp. {{rupiah($kamar->biaya_admin)}} <br>
                         Rp. {{rupiah($kamar->deposit)}} <br>
                         </p>
                         <input type="hidden" class="DropChange" id="depost" value="{{$kamar->deposit}}">
@@ -285,7 +292,7 @@
                     <h5 style="font-weight: bold">Keterangan</h5>
                     <ul>
                     <li style="font-size: 12px"><span style="color:black">Harga Sewa</span> adalah harga kamar dalam jangka 1 bulan.</li>
-                    <li style="font-size: 12px"><span style="color:black">Biaya Admin</span> adalah biaya pelayanan yang di bebankan penyewa untuk Pap!Kos.</li>
+                    <li style="font-size: 12px"><span style="color:black">Biaya Admin</span> adalah biaya pelayanan yang di bebankan penyewa untuk Narali Kost</li>
                     <li style="font-size: 12px"><span style="color:black">Deposit</span> adalah biaya untuk penjaminan selama penyewa masih menggunakan kamar/apartmenent, (biaya akan dikembalikan setelah masa sewa habis).</li>
                     <li style="font-size: 12px"><span style="color:black">Point</span> adalah jumlah reward yang di dapatkan penyewa, point dapat di tukarkan untuk pembayaran.</li>
                     </ul>

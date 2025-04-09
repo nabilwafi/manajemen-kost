@@ -176,7 +176,7 @@
                           <div class="form-group">
                             <div class="controls">
                               <label for="Nama Bank">Nama</label>
-                              <input type="text" name="name" class="form-control" value="{{Auth::user()->name}}">
+                              <input type="text" name="name" {{ Auth::user()->isProfileComplete() ? "disabled" : "" }} class="form-control" value="{{Auth::user()->name}}">
                             </div>
                           </div>
                         </div>
@@ -211,7 +211,7 @@
                           <div class="form-group">
                             <div class="controls">
                               <label for="Email">No. KTP (NIK)</label>
-                              <input type="test" name="no_ktp" value="{{Auth::user()->no_ktp}}" class="form-control" placeholder="Nik">
+                              <input type="test" name="no_ktp" {{ Auth::user()->isProfileComplete() ? "disabled" : "" }} value="{{Auth::user()->no_ktp}}" class="form-control" placeholder="Nik">
                             </div>
                           </div>
                         </div>
@@ -335,6 +335,31 @@
                         </div>
 
                         <div class="col-md-4 col-sm-12">
+                          @if (Auth::user()->buku_nikah)
+                          <a target="_blank" href="{{asset('storage/public/images/buku_nikah/'. Auth::user()->buku_nikah)}}">
+                            <img width="100" src="{{ asset('storage/public/images/buku_nikah/'. Auth::user()->buku_nikah) }}" alt="">
+                          </a>
+                          @endif
+                        </div>
+
+                        <div class="col-md-4 col-sm-12">
+                          @if (Auth::user()->ktp_upload)
+                          <a target="_blank" href="{{asset('storage/public/images/ktp_upload/'. Auth::user()->ktp_upload)}}">
+                            <img width="100" src="{{ asset('storage/public/images/ktp_upload/'. Auth::user()->ktp_upload) }}" alt="">
+                          </a>
+                          @endif
+                        </div>
+
+                        <div class="col-md-4 col-sm-12">
+                          @if (Auth::user()->foto)
+                          <a target="_blank" href="{{ asset('storage/public/images/foto_profile/'. Auth::user()->foto) }}">
+                            <img width="100" src="{{ asset('storage/public/images/foto_profile/'. Auth::user()->foto) }}" alt="">
+                          </a>
+                          @endif
+                        </div>
+
+                        @if (!Auth::user()->isProfileComplete())
+                        <div class="col-md-4 col-sm-12">
                           <div class="form-group">
                             <div class="controls">
                               <label for="nomor wa">{{Auth::user()->buku_nikah == null ? 'Buku Nikah' : 'Update Buku Nikah'}}</label>
@@ -351,7 +376,7 @@
                             </div>
                           </div>
                         </div>
-
+                        
                         <div class="col-md-4 col-sm-12">
                           <div class="form-group">
                             <div class="controls">
@@ -360,8 +385,9 @@
                             </div>
                           </div>
                         </div>
+                        @endif
 
-                        <div class="col-12 d-flex flex-sm-row flex-column justify-content-start">
+                        <div class="col-12 d-flex flex-sm-row flex-column justify-content-start mt-2">
                           <button type="submit" class="btn btn-primary mr-sm-1 mb-1 mb-sm-0">Simpan</button>
                           <a href="/home" class="btn btn-outline-warning">Cancel</a>
                         </div>

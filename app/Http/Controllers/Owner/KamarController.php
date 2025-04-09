@@ -4,12 +4,13 @@ namespace App\Http\Controllers\Owner;
 use ErrorException;
 
 use App\Models\kamar;
+use App\Models\payment;
 use Illuminate\Http\Request;
 use App\Http\Requests\KamarRequest;
 use App\Http\Controllers\Controller;
 use App\Services\Owner\KamarService;
 use Illuminate\Support\Facades\Session;
-use App\Models\{Province,regency,District, Transaction};
+use App\Models\{Province,regency,District, Transaction, User};
 
 class KamarController extends Controller
 {
@@ -32,6 +33,13 @@ class KamarController extends Controller
       } catch (ErrorException $e) {
         throw new ErrorException($e->getMessage());
       }
+    }
+
+    public function detail($key)
+    {
+      $transaction = Transaction::with('users', 'payments')->where('key', $key)->first();
+
+      return view('pemilik.kamar.detail', compact('transaction'));
     }
 
     /**
@@ -137,7 +145,18 @@ class KamarController extends Controller
 
     public function verifikasiFormOut($transaction_id)
     {
-      $transaction = Transaction::where('id', $transaction_id)->first();
+      $transaction = Transaction::with('users')->where('id', $transaction_id)->first();
+
+      foreach ($transaction->users as $user) {
+        $user = User::where('id', $user->id)->first();
+        $user->active = false;
+        $user->save();
+      }
+
+      kamar::where('id',$transaction->kamar_id)
+      ->update([
+        'sisa_kamar' => $transaction->kamar->sisa_kamar + 1
+      ]);
 
       $transaction->status = 'Done';
       $transaction->save();

@@ -15,7 +15,7 @@ class BookingListService {
   {
     try {
       if (!empty(Auth::user()->kamar->id)) {
-        $booking = Transaction::with('payment')->where('pemilik_id', Auth::id())->with('users')->orderBy('created_at','DESC')->get();
+        $booking = Transaction::with('latestPayment')->where('pemilik_id', Auth::id())->with('users')->orderBy('created_at','DESC')->get();
         return view('pemilik.booking.index', compact('booking'));
       } else {
         Session::flash('error','Data Kamar Masih Kosong');
@@ -61,7 +61,7 @@ class BookingListService {
       $confirm->updated_at  = Carbon::now();
       $confirm->save();
 
-      if ($confirm && $confirm->kondisiBarangMasuk) {
+      if ($confirm && !$confirm->kondisiBarangMasuk) {
         $kamar = kamar::where('id', $confirm->kamar_id)->first();
         $kamar->sisa_kamar = $kamar->sisa_kamar - 1;
         $kamar->save();
@@ -99,14 +99,10 @@ class BookingListService {
       DB::beginTransaction();
       $done = Transaction::with('kamar')->findOrFail($params);
       $done->update([
-        'status'      => 'Done',
+        'status'      => 'Proses Out',
         'updated_at'  => carbon::now()
       ]);
 
-      $kamar = kamar::where('id',$done->kamar_id)
-      ->update([
-        'sisa_kamar' => $done->kamar->sisa_kamar + 1
-      ]);
       DB::commit();
       Session::flash('error','Kamar Berhasil Di Update');
       return redirect('/pemilik/booking-list');

@@ -41,6 +41,17 @@ class RoomConditionController extends Controller
         
         $kondisiBarang = KondisiBarang::where('transaction_id', $transaction_id)->where('type', 'masuk')->first();
         if ($kondisiBarang) {
+            $kondisiBarang->user_id = Auth::id();
+            $kondisiBarang->transaction_id = $transaction_id;
+            $kondisiBarang->signature_path = $signaturePath;
+            
+            foreach ($barangData as $key => $value) {
+                $kondisiBarang->$key = $value;
+            }
+        
+            $kondisiBarang->save();
+        }else {
+            
             $kondisi = new KondisiBarang();
             $kondisi->user_id = Auth::id();
             $kondisi->transaction_id = $transaction_id;
@@ -51,16 +62,6 @@ class RoomConditionController extends Controller
             }
         
             $kondisi->save();
-        }else {
-            $kondisiBarang->user_id = Auth::id();
-            $kondisiBarang->transaction_id = $transaction_id;
-            $kondisiBarang->signature_path = $signaturePath;
-            
-            foreach ($barangData as $key => $value) {
-                $kondisiBarang->$key = $value;
-            }
-        
-            $kondisiBarang->save();
         }
     
         return redirect()->to('user/myroom')->with('success', 'Data kondisi barang berhasil disimpan.');
@@ -68,7 +69,7 @@ class RoomConditionController extends Controller
 
     public function FormKeluar ($transaction_id)
     {
-        $transaction = Transaction::with('user', 'kamar', 'pemilik')->where('id', $transaction_id)->first();
+        $transaction = Transaction::with('users', 'kamar', 'pemilik')->where('id', $transaction_id)->first();
 
         return view('user.form.form_out', compact('transaction'));
     }
@@ -98,17 +99,6 @@ class RoomConditionController extends Controller
         $kondisiBarang = KondisiBarang::where('transaction_id', $transaction_id)->where('type', 'keluar')->first();
 
         if ($kondisiBarang) {
-            $kondisi = new KondisiBarang();
-            $kondisi->user_id = Auth::id();
-            $kondisi->transaction_id = $transaction_id;
-            $kondisi->signature_path = $signaturePath;
-            
-            foreach ($barangData as $key => $value) {
-                $kondisi->$key = $value;
-            }
-        
-            $kondisi->save();
-        }else {
             $kondisiBarang->user_id = Auth::id();
             $kondisiBarang->transaction_id = $transaction_id;
             $kondisiBarang->signature_path = $signaturePath;
@@ -118,6 +108,18 @@ class RoomConditionController extends Controller
             }
         
             $kondisiBarang->save();
+        }else {
+            $kondisi = new KondisiBarang();
+            $kondisi->user_id = Auth::id();
+            $kondisi->type = "keluar";
+            $kondisi->transaction_id = $transaction_id;
+            $kondisi->signature_path = $signaturePath;
+            
+            foreach ($barangData as $key => $value) {
+                $kondisi->$key = $value;
+            }
+        
+            $kondisi->save();
         }
     
         return redirect()->to('user/myroom')->with('success', 'Data kondisi barang berhasil disimpan.');

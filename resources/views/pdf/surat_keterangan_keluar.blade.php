@@ -97,14 +97,16 @@
     </table>
   
     <br>
-  
+    
+    @foreach ($transaction->users as $item)
     <table>
       <tr>
-        <td><strong>Nama Penyewa 1</strong></td>
-        <td colspan="2"><strong>{{ $transaction->user->name }}</strong></td>
+        <td><strong>Nama Penyewa {{ $loop->iteration }}</strong></td>
+        <td colspan="2"><strong>{{ $item->name }}</strong></td>
       </tr>
-      <tr><td>No. KTP</td><td colspan="2">{{ $transaction->user->ktp }}</td></tr>
+      <tr><td>No. KTP</td><td colspan="2">{{ $item->no_ktp }}</td></tr>
     </table>
+    @endforeach
 
       <br><br>  
 
@@ -121,10 +123,14 @@
         <tr>
             <td style="border: none; text-align: center;">
               Menyetujui<br><br><br>
-              <img src="{{ public_path('storage/' . $transaction->kondisiBarangMasuk->signature_path) }}" width="180" style="margin-bottom: 1rem;" alt="Logo Kost">
+              @if ($transaction->kondisiBarangKeluar)
+              <img src="{{ public_path('storage/' . $transaction->kondisiBarangKeluar->signature_path) }}" width="180" style="margin-bottom: 1rem;" alt="Logo Kost">
+              @else
+              <br><br><br>
+              @endif
               <br><br><br><br>
                 Penyewa Kost<br><br>
-                Nama: {{ $transaction->user->name ?? '________________' }}
+                Nama: {{ $transaction->users[0]->name ?? '________________' }}
             </td>
             <td style="border: none; text-align: center;">
                 Mengetahui<br><br><br>
@@ -157,31 +163,31 @@
       </tr>
     </thead>
     <tbody>
-      <tr><td style="text-align: center">1</td><td>AC ½ PK (LG / Samsung / Sharp)</td><td style="text-align: right">3.500.000</td><td style="text-align: right">1 buah</td><td>{{ $transaction->kondisiBarangMasuk->barang_1 }}</td></tr>
-      <tr><td style="text-align: center">2</td><td>Remote AC</td><td style="text-align: right">50.000</td><td style="text-align: right">1 buah</td><td>{{ $transaction->kondisiBarangMasuk->barang_1 }}</td></tr>
-      <tr><td style="text-align: center">3</td><td>Spring Bed 2 in 1</td><td style="text-align: right">2.500.000</td><td style="text-align: right">1 buah</td><td>{{ $transaction->kondisiBarangMasuk->barang_1 }}</td></tr>
-      <tr><td style="text-align: center">4</td><td>Bantal</td><td style="text-align: right">50.000</td><td style="text-align: right">... buah</td><td>{{ $transaction->kondisiBarangMasuk->barang_1 }}</td></tr>
-      <tr><td style="text-align: center">5</td><td>Guling</td><td style="text-align: right">50.000</td><td style="text-align: right">... buah</td><td>{{ $transaction->kondisiBarangMasuk->barang_1 }}</td></tr>
-      <tr><td style="text-align: center">6</td><td>TV Flat 24 Inch Merk LG</td><td style="text-align: right">1.500.000</td><td style="text-align: right">1 buah</td><td>{{ $transaction->kondisiBarangMasuk->barang_1 }}</td></tr>
-      <tr><td style="text-align: center">7</td><td>Remote TV</td><td style="text-align: right">50.000</td><td style="text-align: right">1 buah</td><td>{{ $transaction->kondisiBarangMasuk->barang_1 }}</td></tr>
-      <tr><td style="text-align: center">8</td><td>Kulkas Sharp 1 Pintu</td><td style="text-align: right">2.000.000</td><td style="text-align: right">1 buah</td><td>{{ $transaction->kondisiBarangMasuk->barang_1 }}</td></tr>
-      <tr><td style="text-align: center">9</td><td>Lemari</td><td style="text-align: right">900.000</td><td style="text-align: right">1 buah</td><td>{{ $transaction->kondisiBarangMasuk->barang_1 }}</td></tr>
-      <tr><td style="text-align: center">10</td><td>Gantungan Baju Dinding</td><td style="text-align: right">100.000</td><td style="text-align: right">1 buah</td><td>{{ $transaction->kondisiBarangMasuk->barang_1 }}</td></tr>
-      <tr><td style="text-align: center">11</td><td>Gantungan Sabun/Shampo</td><td style="text-align: right">100.000</td><td style="text-align: right">1 buah</td><td>{{ $transaction->kondisiBarangMasuk->barang_1 }}</td></tr>
-      <tr><td style="text-align: center">12</td><td>Gantungan Handuk Kamar Mandi</td><td style="text-align: right">100.000</td><td style="text-align: right">1 buah</td><td>{{ $transaction->kondisiBarangMasuk->barang_1 }}</td></tr>
-      <tr><td style="text-align: center">13</td><td>Kerai Jendela</td><td style="text-align: right">150.000</td><td style="text-align: right">1 buah</td><td>{{ $transaction->kondisiBarangMasuk->barang_1 }}</td></tr>
-      <tr><td style="text-align: center">14</td><td>Seprai</td><td style="text-align: right">100.000</td><td style="text-align: right">1 buah</td><td>{{ $transaction->kondisiBarangMasuk->barang_1 }}</td></tr>
-      <tr><td style="text-align: center">15</td><td>Sarung Bantal</td><td style="text-align: right">20.000</td><td style="text-align: right">... buah</td><td>{{ $transaction->kondisiBarangMasuk->barang_1 }}</td></tr>
-      <tr><td style="text-align: center">16</td><td>Sarung Guling</td><td style="text-align: right">20.000</td><td style="text-align: right">... buah</td><td>{{ $transaction->kondisiBarangMasuk->barang_1 }}</td></tr>
-      <tr><td style="text-align: center">17</td><td>Meja Belajar</td><td style="text-align: right">500.000</td><td style="text-align: right">1 buah</td><td>{{ $transaction->kondisiBarangMasuk->barang_1 }}</td></tr>
-      <tr><td style="text-align: center">18</td><td>Kursi Belajar</td><td style="text-align: right">300.000</td><td style="text-align: right">1 buah</td><td>{{ $transaction->kondisiBarangMasuk->barang_1 }}</td></tr>
-      <tr><td style="text-align: center">19</td><td>Jam Dinding</td><td style="text-align: right">100.000</td><td style="text-align: right">1 buah</td><td>{{ $transaction->kondisiBarangMasuk->barang_1 }}</td></tr>
-      <tr><td style="text-align: center">20</td><td>Keset Kamar Mandi</td><td style="text-align: right">20.000</td><td style="text-align: right">1 buah</td><td>{{ $transaction->kondisiBarangMasuk->barang_1 }}</td></tr>
-      <tr><td style="text-align: center">21</td><td>Kunci Kamar</td><td style="text-align: right">20.000</td><td style="text-align: right">1 buah</td><td>{{ $transaction->kondisiBarangMasuk->barang_1 }}</td></tr>
-      <tr><td style="text-align: center">22</td><td>Kunci Gerbang Utama</td><td style="text-align: right">20.000</td><td style="text-align: right">1 buah</td><td>{{ $transaction->kondisiBarangMasuk->barang_1 }}</td></tr>
-      <tr><td style="text-align: center">23</td><td>Kunci Gerbang Atas 1</td><td style="text-align: right">20.000</td><td style="text-align: right">1 buah</td><td>{{ $transaction->kondisiBarangMasuk->barang_1 }}</td></tr>
-      <tr><td style="text-align: center">24</td><td>Kunci Gerbang Atas 2</td><td style="text-align: right">20.000</td><td style="text-align: right">1 buah</td><td>{{ $transaction->kondisiBarangMasuk->barang_1 }}</td></tr>
-      <tr><td style="text-align: center">25</td><td>Kunci Gerbang {{ $transaction->kamar->nama_kamar }}</td><td style="text-align: right">20.000</td><td style="text-align: right">1 buah</td><td>{{ $transaction->kondisiBarangMasuk->barang_1 }}</td></tr>
+      <tr><td style="text-align: center">1</td><td>AC ½ PK (LG / Samsung / Sharp)</td><td style="text-align: right">3.500.000</td><td style="text-align: right">1 buah</td><td>{{ $transaction->kondisiBarangKeluar ? $transaction->kondisiBarangKeluar->barang_1 : "" }}</td></tr>
+      <tr><td style="text-align: center">2</td><td>Remote AC</td><td style="text-align: right">50.000</td><td style="text-align: right">1 buah</td><td>{{ $transaction->kondisiBarangKeluar ? $transaction->kondisiBarangKeluar->barang_2 : "" }}</td></tr>
+      <tr><td style="text-align: center">3</td><td>Spring Bed 2 in 1</td><td style="text-align: right">2.500.000</td><td style="text-align: right">1 buah</td><td>{{ $transaction->kondisiBarangKeluar ? $transaction->kondisiBarangKeluar->barang_3 : "" }}</td></tr>
+      <tr><td style="text-align: center">4</td><td>Bantal</td><td style="text-align: right">50.000</td><td style="text-align: right">... buah</td><td>{{ $transaction->kondisiBarangKeluar ? $transaction->kondisiBarangKeluar->barang_4 : "" }}</td></tr>
+      <tr><td style="text-align: center">5</td><td>Guling</td><td style="text-align: right">50.000</td><td style="text-align: right">... buah</td><td>{{ $transaction->kondisiBarangKeluar ? $transaction->kondisiBarangKeluar->barang_5 : "" }}</td></tr>
+      <tr><td style="text-align: center">6</td><td>TV Flat 24 Inch Merk LG</td><td style="text-align: right">1.500.000</td><td style="text-align: right">1 buah</td><td>{{ $transaction->kondisiBarangKeluar ? $transaction->kondisiBarangKeluar->barang_6 : "" }}</td></tr>
+      <tr><td style="text-align: center">7</td><td>Remote TV</td><td style="text-align: right">50.000</td><td style="text-align: right">1 buah</td><td>{{ $transaction->kondisiBarangKeluar ? $transaction->kondisiBarangKeluar->barang_7 : "" }}</td></tr>
+      <tr><td style="text-align: center">8</td><td>Kulkas Sharp 1 Pintu</td><td style="text-align: right">2.000.000</td><td style="text-align: right">1 buah</td><td>{{ $transaction->kondisiBarangKeluar ? $transaction->kondisiBarangKeluar->barang_8 : "" }}</td></tr>
+      <tr><td style="text-align: center">9</td><td>Lemari</td><td style="text-align: right">900.000</td><td style="text-align: right">1 buah</td><td>{{ $transaction->kondisiBarangKeluar ? $transaction->kondisiBarangKeluar->barang_9 : "" }}</td></tr>
+      <tr><td style="text-align: center">10</td><td>Gantungan Baju Dinding</td><td style="text-align: right">100.000</td><td style="text-align: right">1 buah</td><td>{{ $transaction->kondisiBarangKeluar ? $transaction->kondisiBarangKeluar->barang_10 : "" }}</td></tr>
+      <tr><td style="text-align: center">11</td><td>Gantungan Sabun/Shampo</td><td style="text-align: right">100.000</td><td style="text-align: right">1 buah</td><td>{{ $transaction->kondisiBarangKeluar ? $transaction->kondisiBarangKeluar->barang_11 : "" }}</td></tr>
+      <tr><td style="text-align: center">12</td><td>Gantungan Handuk Kamar Mandi</td><td style="text-align: right">100.000</td><td style="text-align: right">1 buah</td><td>{{ $transaction->kondisiBarangKeluar ? $transaction->kondisiBarangKeluar->barang_12 : "" }}</td></tr>
+      <tr><td style="text-align: center">13</td><td>Kerai Jendela</td><td style="text-align: right">150.000</td><td style="text-align: right">1 buah</td><td>{{ $transaction->kondisiBarangKeluar ? $transaction->kondisiBarangKeluar->barang_13 : "" }}</td></tr>
+      <tr><td style="text-align: center">14</td><td>Seprai</td><td style="text-align: right">100.000</td><td style="text-align: right">1 buah</td><td>{{ $transaction->kondisiBarangKeluar ? $transaction->kondisiBarangKeluar->barang_14 : "" }}</td></tr>
+      <tr><td style="text-align: center">15</td><td>Sarung Bantal</td><td style="text-align: right">20.000</td><td style="text-align: right">... buah</td><td>{{ $transaction->kondisiBarangKeluar ? $transaction->kondisiBarangKeluar->barang_15 : "" }}</td></tr>
+      <tr><td style="text-align: center">16</td><td>Sarung Guling</td><td style="text-align: right">20.000</td><td style="text-align: right">... buah</td><td>{{ $transaction->kondisiBarangKeluar ? $transaction->kondisiBarangKeluar->barang_16 : "" }}</td></tr>
+      <tr><td style="text-align: center">17</td><td>Meja Belajar</td><td style="text-align: right">500.000</td><td style="text-align: right">1 buah</td><td>{{ $transaction->kondisiBarangKeluar ? $transaction->kondisiBarangKeluar->barang_17 : "" }}</td></tr>
+      <tr><td style="text-align: center">18</td><td>Kursi Belajar</td><td style="text-align: right">300.000</td><td style="text-align: right">1 buah</td><td>{{ $transaction->kondisiBarangKeluar ? $transaction->kondisiBarangKeluar->barang_18 : "" }}</td></tr>
+      <tr><td style="text-align: center">19</td><td>Jam Dinding</td><td style="text-align: right">100.000</td><td style="text-align: right">1 buah</td><td>{{ $transaction->kondisiBarangKeluar ? $transaction->kondisiBarangKeluar->barang_19 : "" }}</td></tr>
+      <tr><td style="text-align: center">20</td><td>Keset Kamar Mandi</td><td style="text-align: right">20.000</td><td style="text-align: right">1 buah</td><td>{{ $transaction->kondisiBarangKeluar ? $transaction->kondisiBarangKeluar->barang_20 : "" }}</td></tr>
+      <tr><td style="text-align: center">21</td><td>Kunci Kamar</td><td style="text-align: right">20.000</td><td style="text-align: right">1 buah</td><td>{{ $transaction->kondisiBarangKeluar ? $transaction->kondisiBarangKeluar->barang_21 : "" }}</td></tr>
+      <tr><td style="text-align: center">22</td><td>Kunci Gerbang Utama</td><td style="text-align: right">20.000</td><td style="text-align: right">1 buah</td><td>{{ $transaction->kondisiBarangKeluar ? $transaction->kondisiBarangKeluar->barang_22 : "" }}</td></tr>
+      <tr><td style="text-align: center">23</td><td>Kunci Gerbang Atas 1</td><td style="text-align: right">20.000</td><td style="text-align: right">1 buah</td><td>{{ $transaction->kondisiBarangKeluar ? $transaction->kondisiBarangKeluar->barang_23 : "" }}</td></tr>
+      <tr><td style="text-align: center">24</td><td>Kunci Gerbang Atas 2</td><td style="text-align: right">20.000</td><td style="text-align: right">1 buah</td><td>{{ $transaction->kondisiBarangKeluar ? $transaction->kondisiBarangKeluar->barang_24 : "" }}</td></tr>
+      <tr><td style="text-align: center">25</td><td>Kunci Gerbang {{ $transaction->kamar->nama_kamar }}</td><td style="text-align: right">20.000</td><td style="text-align: right">1 buah</td><td>{{ $transaction->kondisiBarangKeluar ? $transaction->kondisiBarangKeluar->barang_25 : "" }}</td></tr>
     </tbody>
   </table>
 
@@ -197,10 +203,14 @@
         <tr>
             <td style="border: none; text-align: center;">
               Menyetujui<br><br><br>
-              <img src="{{ public_path('storage/' . $transaction->kondisiBarangMasuk->signature_path) }}" width="180" style="margin-bottom: 1rem;" alt="Logo Kost">
+              @if ($transaction->kondisiBarangKeluar)
+              <img src="{{ public_path('storage/' . $transaction->kondisiBarangKeluar->signature_path) }}" width="180" style="margin-bottom: 1rem;" alt="Logo Kost">
+              @else
+              <br><br><br>
+              @endif
               <br><br><br><br>
                 Penyewa Kost<br><br>
-                Nama: {{ $transaction->user->name ?? '________________' }}
+                Nama: {{ $transaction->users[0]->name ?? '________________' }}
             </td>
             <td style="border: none; text-align: center;">
                 Mengetahui<br><br><br><br>

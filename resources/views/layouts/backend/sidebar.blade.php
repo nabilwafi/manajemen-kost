@@ -79,8 +79,6 @@
                 <a href="/pemilik/penghuni"><i class="feather icon-users"></i><span class="menu-title" data-i18n="Penghuni">Penghuni</span>
                 </a>
             </li>
-
-
         </ul>
     </div>
 </div>
@@ -91,7 +89,7 @@
             <ul class="nav navbar-nav flex-row">
                 <li class="nav-item mr-auto">
                     <a class="navbar-brand" href="{{url('/home')}}">
-                        <div class="brand-logo"></div>
+                    <div class="brand-logo"></div>
                         <img width="100" src="./logo.png" alt="">
                     </a>
                 </li>

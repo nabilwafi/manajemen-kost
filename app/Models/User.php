@@ -94,7 +94,8 @@ class User extends Authenticatable
           'nama_kampus_kantor',
           'alamat_kampus_kantor',
           'nama_keluarga',
-          'alamat_keluarga'
+          'alamat_keluarga',
+          'active'
       ];
 
       $incomplete = [];

@@ -21,7 +21,8 @@
           <h5 class="mt-2">Payment</h5>
           <div style="margin-left: 2px">
             <a href="{{url('user/tagihan')}}" style="font-size: 12px">Tagihan</a> <br>
-            <a href="{{url('user/myroom')}}" style="font-size: 12px">Kamar Kamu</a>
+            <a href="{{url('user/myroom')}}" style="font-size: 12px">Kamar Kamu</a> <br>
+            <a href="{{url('user/history')}}" style="font-size: 12px">History Pembayaran</a>
           </div>
 
           <h5 class="mt-2">Kamar</h5>
@@ -47,6 +48,8 @@
                       <th class="text-nowrap">Nomor Transaksi</th>
                       <th class="text-nowrap">Nama Kamar</th>
                       <th class="text-nowrap">Harga</th>
+                      <th class="text-nowrap">Tanggal Sewa</th>
+                      <th class="text-nowrap">Tanggal Berakhir</th>
                       <th class="text-nowrap">Keterangan</th>
                       <th class="text-nowrap">Dokumen perlu ditandatangani</th>
                       <th class="text-nowrap">Status</th>
@@ -65,6 +68,8 @@
                           <a href="{{url('room', $item->kamar->slug)}}" target="_blank">{{$item->kamar->nama_kamar}}</a>
                         </td>
                         <td>{{rupiah($item->kamar->harga_kamar)}}</td>
+                        <td>{{$item->tgl_sewa}}</td>
+                        <td>{{$item->end_date_sewa}}</td>
                         <td>{{$item->lama_sewa}} Bulan</td>
                         <td>
                           @if ($item->status == "Proses In")
@@ -74,15 +79,19 @@
                             </div>
                             @endif
                             
-                            @if ($item->users[0]->id === Auth::id() && count($item->payment) < 1)
+                            @if ($item->users[0]->id === Auth::id())
                               <a href="/user/proses-in-kondisi/{{$item->id}}">Isi Data Form</a>
                             @endif
                           @elseif ($item->status == "Proses Out")
-                          @if ($item->kondisiBarangKeluar)
-                          <a target="_blank" href="/generate-surat-keterangan-keluar/{{$item->id}}">Lihat Form</a>
-                          @else
-                          <a href="/user/proses-out-kondisi/{{$item->id}}">Isi Data Form</a>
-                          @endif
+                            @if ($item->kondisiBarangKeluar)
+                            <div>
+                              <a target="_blank" href="/generate-surat-keterangan-keluar/{{$item->id}}">Lihat Form Keluar</a>
+                            </div>
+                            @endif
+                            
+                            @if ($item->users[0]->id === Auth::id())
+                              <a href="/user/proses-out-kondisi/{{$item->id}}">Isi Data Form</a>
+                            @endif
                           @else
                           -
                           @endif

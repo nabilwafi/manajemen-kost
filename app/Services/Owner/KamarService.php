@@ -66,11 +66,12 @@ class KamarService {
       $kamar->nama_kamar      = $params->nama_kamar;
       $kamar->jenis_kamar     = $params->jenis_kamar;
       $kamar->luas_kamar      = $params->luas_kamar;
-      $kamar->stok_kamar      = $params->stok_kamar;
-      $kamar->sisa_kamar      = $kamar->stok_kamar;
+      $kamar->stok_kamar      = 1;
+      $kamar->sisa_kamar      = 1;
       $kamar->harga_kamar     = $params->harga_kamar;
+      $kamar->harga_kamar_berdua     = $params->harga_kamar_berdua;
       $kamar->deposit         = $params->deposit;
-      $kamar->biaya_admin     = $params->biaya_admin;
+      $kamar->biaya_admin     = 0;
       $kamar->ket_lain        = $params->ket_lain;
       $kamar->ket_biaya       = $params->ket_biaya;
       $kamar->desc            = $params->desc;

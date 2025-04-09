@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class TransactionRequest extends FormRequest
 {
@@ -24,7 +25,9 @@ class TransactionRequest extends FormRequest
     public function rules()
     {
         return [
-          'tgl_sewa'  => 'required'
+          'tgl_sewa'  => 'required',
+          'berdua' => 'nullable',
+          'teman_id'   => ['required_if:berdua,1'],
         ];
     }
 
@@ -32,6 +35,7 @@ class TransactionRequest extends FormRequest
     {
       return [
         'nama_bank.tgl_sewa'    => 'Tanggal Sewa Tidak Boleh Kosong.',
+        'teman_id.required' => 'teman tidak boleh kosong'
       ];
     }
 }

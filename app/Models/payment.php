@@ -9,7 +9,7 @@ class payment extends Model
 {
     use HasFactory;
     protected $fillable = [
-      'transaction_id','user_id','kamar_id','type_transfer','nama_bank','nama_pemilik','nomor_rekening','status','jumlah_bayar','bank_tujuaan','tgl_transfer','bukti_bayar'
+      'transaction_id','user_id','kamar_id','type_transfer','nama_bank','nama_pemilik','nomor_rekening','status','jumlah_bayar','bank_tujuaan','tgl_transfer','bukti_bayar', 'end_date_sewa'
     ];
 
     public function user()

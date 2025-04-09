@@ -84,15 +84,6 @@
                       @enderror
                   </div>
                   <div class="col-sm-3">
-                      <label class=" col-form-label">Stok Kamar</label>
-                      <input type="number" name="stok_kamar" class="form-control @error('stok_kamar') is-invalid @enderror"  value="{{old('stok_kamar')}}" placeholder="Kamar Tersedia">
-                      @error('stok_kamar')
-                        <div class="invalid-feedback">
-                          <strong>{{ $message }}</strong>
-                        </div>
-                      @enderror
-                  </div>
-                  <div class="col-sm-3">
                       <label class="col-form-label">Harga Kamar</label>
                       <input type="number" name="harga_kamar" class="form-control @error('harga_kamar') is-invalid @enderror" value="{{old('harga_kamar')}}" placeholder="Harga Kamar">
                       @error('harga_kamar')
@@ -101,6 +92,16 @@
                         </div>
                       @enderror
                   </div>
+
+                  <div class="col-sm-3">
+                    <label class="col-form-label">Harga Kamar Berdua</label>
+                    <input type="number" name="harga_kamar_berdua" class="form-control @error('harga_kamar') is-invalid @enderror" value="{{old('harga_kamar_berdua')}}" placeholder="Harga Kamar">
+                    @error('harga_kamar_berdua')
+                      <div class="invalid-feedback">
+                        <strong>{{ $message }}</strong>
+                      </div>
+                    @enderror
+                </div>
 
                   <div class="col-sm-3">
                       <label class="col-form-label">Biaya Listrik</label>
@@ -153,16 +154,6 @@
                       <label class="col-form-label">Biaya Deposit</label>
                       <input type="number" name="deposit" class="form-control @error('deposit') is-invalid @enderror" value="{{old('deposit')}}" placeholder="Biaya Deposit">
                       @error('deposit')
-                        <div class="invalid-feedback">
-                          <strong>{{ $message }}</strong>
-                        </div>
-                      @enderror
-                  </div>
-
-                  <div class="col-sm-4">
-                      <label class="col-form-label">Biaya Admin</label>
-                      <input type="number" name="biaya_admin" class="form-control @error('biaya_admin') is-invalid @enderror" value="{{old('biaya_admin')}}" placeholder="Biaya Admin">
-                      @error('biaya_admin')
                         <div class="invalid-feedback">
                           <strong>{{ $message }}</strong>
                         </div>

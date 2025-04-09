@@ -47,7 +47,7 @@
     <div class="col-md-9">
         <div class="card">
           <div class="card-header">
-            <h4 class="card-title">Data Tagihan</h4>
+            <h4 class="card-title">Data History Transaksi</h4>
           </div>
           <div class="card-content">
             <div class="card-body card-dashboard">
@@ -63,31 +63,27 @@
                       <th class="text-nowrap">Tanggal Berakhir Sewa</th>
                       <th class="text-nowrap">Keterangan</th>
                       <th class="text-nowrap">Status</th>
-                      <th class="text-nowrap">Action</th>
+                      <th class="text-nowrap">Bukti Bayar</th>
                     </tr>
                   </thead>
                   <tbody>
                     @php
                       $no=1;
                     @endphp
-                    @foreach ($tagihan as $tagihans)
-                        @if ($tagihans->status == 'Pending')
-                          <tr>
-                            <td>{{$no}}</td>
-                            <td>{{$tagihans->transaction->transaction_number}}</td>
-                            <td>{{$tagihans->transaction->kamar->nama_kamar}}</td>
-                            <td>{{rupiah($tagihans->transaction->harga_total)}}</td>
-                            <td>{{$tagihans->transaction->tgl_sewa}}</td>
-                            <td>{{$tagihans->transaction->end_date_sewa}}</td>
-                            <td>{{$tagihans->transaction->lama_sewa}} Bulan</td>
-                            <td>{{$tagihans->status}}</td>
-                            <td>
-                              @if ($tagihans->status == 'Pending')
-                                <a href="{{url('user/room', $tagihans->transaction->key)}}">Konfirmasi</a>
-                              @endif
-                            </td>
-                          </tr>
-                        @endif
+                    @foreach ($payments as $tagihans)
+                        <tr>
+                          <td>{{$no}}</td>
+                          <td>{{$tagihans->transaction->transaction_number}}</td>
+                          <td>{{$tagihans->transaction->kamar->nama_kamar}}</td>
+                          <td>{{rupiah($tagihans->transaction->harga_total)}}</td>
+                          <td>{{$tagihans->transaction->tgl_sewa}}</td>
+                          <td>{{$tagihans->transaction->end_date_sewa}}</td>
+                          <td>{{$tagihans->transaction->lama_sewa}} Bulan</td>
+                          <td>{{$tagihans->status}}</td>
+                          <td>
+                            <a target="_blank" href="{{asset('storage/public/images/bukti_bayar/'. $tagihans->bukti_bayar)}}">Show</a>
+                          </td>
+                        </tr>
 
                         @php
                           $no++;

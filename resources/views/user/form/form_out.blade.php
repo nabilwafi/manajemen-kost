@@ -244,7 +244,7 @@
                           <p>Silakan tanda tangan di bawah ini:</p>
   
                           <div class="form-group">
-                              <canvas id="signature-pad" width="400" height="100" style="border:1px solid #ccc;"></canvas>
+                              <canvas id="signature-pad" height="100" style="border:1px solid #ccc;"></canvas>
                               <input type="hidden" name="signature" id="signature">
                               <br>
                               <button type="button" class="btn btn-default" onclick="clearSignature()">Hapus Tanda Tangan</button>

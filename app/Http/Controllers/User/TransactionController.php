@@ -48,10 +48,13 @@ class TransactionController extends Controller
             Session::flash('error','Kamar Penuh !');
             return back();
           }
+
+          $harga_kamar = $request->has('berdua') ? $room->harga_kamar_berdua : $room->harga_kamar;
+
           $iduser = Auth::id(); // Get ID User
           $number = mt_rand(100, 999); // Get Random Number
           $date = date('dmy'); // Get Date Now
-          $key = Str::random(9999);
+          $key = Str::random(99);
 
           $kamar = new Transaction;
           $kamar->key                 = 'confirm-payment-' .$key;
@@ -69,14 +72,10 @@ class TransactionController extends Controller
             $kamar->hari              = 360;
           }
 
-          $kamar->harga_kamar         =  $room->promo != null && $room->promo->status == '1' && $room->promo->end_date_promo >= carbon::now()->format('d F, Y') ? $room->promo->harga_promo : $room->harga_kamar;
-          if ($request->credit) {
-            $totalharga               =  $room->promo != null && $room->promo->status == '1' && $room->promo->end_date_promo >= carbon::now()->format('d F, Y') ? $room->promo->harga_promo : $room->harga_kamar * $request->lama_sewa;
-            $kamar->harga_total       = ($totalharga + $number);
-          } else {
-            $harga_total       =  $room->promo != null && $room->promo->status == '1' && $room->promo->end_date_promo >= carbon::now()->format('d F, Y') ? $room->promo->harga_promo : $room->harga_kamar * $request->lama_sewa;
-            $kamar->harga_total = $harga_total + $number;
-          }
+          $kamar->harga_kamar         =  $harga_kamar;
+
+          $harga_total       =  $harga_kamar * $kamar->lama_sewa;
+          $kamar->harga_total = $harga_total + $number;
 
           $kamar->tgl_sewa            = Carbon::parse($request->tgl_sewa)->format('d-m-Y');
           $kamar->end_date_sewa       = Carbon::parse($request->tgl_sewa)->addDays($kamar->hari)->format('d-m-Y');
@@ -91,6 +90,7 @@ class TransactionController extends Controller
           if ($kamar) {
             $payment = new payment;
             $payment->transaction_id    = $kamar->id;
+            $payment->end_date_sewa     = $kamar->end_date_sewa;
             $payment->user_id           = Auth::id();
             $payment->kamar_id          = $id;
             $payment->save();
@@ -167,5 +167,12 @@ class TransactionController extends Controller
         DB::rollback();
         throw new ErrorException($e->getMessage());
       }
+    }
+
+    public function history()
+    {
+      $payments = Payment::where('user_id', Auth::id())->where('status', 'Success')->get();
+
+      return view('user.history.index', compact('payments'));
     }
 }
