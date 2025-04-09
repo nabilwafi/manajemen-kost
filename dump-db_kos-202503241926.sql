@@ -702,7 +702,7 @@ DROP TABLE IF EXISTS `provinces`;
 CREATE TABLE `provinces` (
   `id` char(2) COLLATE utf8mb4_unicode_ci NOT NULL,
   `name` varchar(125) COLLATE utf8mb4_unicode_ci NOT NULL,
-  KEY `provinces_id_index` (`id`)
+  PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 

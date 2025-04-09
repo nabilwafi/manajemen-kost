@@ -11,11 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('transaction_user', function (Blueprint $table) {
+        Schema::create('roles', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('transaction_id')->constrained()->onDelete('cascade');
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->string('name', 125);
+            $table->string('guard_name', 125);
             $table->timestamps();
+
+            $table->unique(['name', 'guard_name'], 'roles_name_guard_name_unique');
         });
     }
 
@@ -24,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('transaction_user');
+        Schema::dropIfExists('roles');
     }
 };
