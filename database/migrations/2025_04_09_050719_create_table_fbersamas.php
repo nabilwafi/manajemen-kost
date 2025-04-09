@@ -11,8 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->string('verified')->nullable();
+        Schema::create('fbersamas', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('kamar_id')->constrained('kamars')->onDelete('cascade');
+            $table->string('name', 125);
+            $table->timestamps();
         });
     }
 
@@ -21,10 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn([
-                'verified'
-            ]);
-        });
+        Schema::dropIfExists('fbersamas');
     }
 };

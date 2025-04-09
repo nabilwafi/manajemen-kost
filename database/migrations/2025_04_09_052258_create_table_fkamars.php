@@ -11,8 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('transactions', function (Blueprint $table) {
-            $table->string('approved_by_user')->nullable();
+        Schema::create('fkamars', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('kamar_id')->constrained('kamars')->onDelete('cascade');
+            $table->string('name', 125);
+            $table->timestamps();
         });
     }
 
@@ -21,8 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('transactions', function (Blueprint $table) {
-            $table->string('approved_by_user')->nullable();
-        });
+        Schema::dropIfExists('fkamars');
     }
 };
