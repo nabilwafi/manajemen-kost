@@ -51,7 +51,7 @@
     <div class="drag-target"></div>
 
     <!-- BEGIN: Footer-->
-    @include('layouts.front.footer')
+    {{-- @include('layouts.front.footer') --}}
     <!-- END: Footer-->
 
 

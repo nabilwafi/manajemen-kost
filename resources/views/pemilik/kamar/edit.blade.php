@@ -30,15 +30,7 @@
                             <label class="col-form-label">Nama Kamar</label>
                             <input type="text" class="form-control" name="nama_kamar" value="{{$edit->nama_kamar}}" placeholder="Nama Kamar" autocomplete="off">
                         </div>
-                        <div class="col-sm-3">
-                            <label class="col-form-label">Kategori</label>
-                            <select name="kategori" class="form-control">
-                                <option value="">--Kategori Kamar--</option>
-                                <option value="Kost" {{$edit->kategori == 'Kost' ? 'selected' : ''}} >Kost</option>
-                                <option value="Apartment" {{$edit->kategori == 'Apartment' ? 'selected' : ''}}>Apartment</option>
-                            </select>
-                        </div>
-                        <div class="col-sm-3">
+                        <div class="col-sm-6">
                             <label class="col-form-label">Jenis Kamar</label>
                             <select name="jenis_kamar" class="form-control">
                                 <option value="">--Putra/Putri--</option>
@@ -65,25 +57,16 @@
                             <input type="text" class="form-control" name="luas_kamar" value="{{$edit->luas_kamar}}" placeholder="Contoh 3 x 4">
                         </div>
                         <div class="col-sm-3">
-                            <label class=" col-form-label">Stok Kamar</label>
-                            <input type="number" class="form-control" name="stok_kamar" value="{{$edit->stok_kamar}}" placeholder="Kamar Tersedia">
-                        </div>
-                        <div class="col-sm-3">
                             <label class="col-form-label">Harga Kamar</label>
                             <input type="number" class="form-control" name="harga_kamar" value="{{$edit->harga_kamar}}" placeholder="Harga Kamar">
                         </div>
+                        <div class="col-sm-3">
+                          <label class="col-form-label">Harga Kamar Berdua</label>
+                          <input type="number" class="form-control" name="harga_kamar_berdua" value="{{$edit->harga_kamar_berdua}}" placeholder="Harga Kamar">
+                      </div>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-sm-3">
-                        <label class="col-form-label">Biaya Listrik</label>
-                        <select name="listrik" class="form-control">
-                            <option value="">-- Listrik Kamar --</option>
-                            <option value="1" {{$edit->listrik == '1' ? 'selected' : ''}}>Termasuk Listrik</option>
-                            <option value="0" {{$edit->listrik == '0' ? 'selected' : ''}}>Tidak Termasuk Listrik</option>
-                        </select>
-                    </div>
-
                     <div class="col-sm-3">
                         <label class="col-form-label">Provinsi</label>
                         <select name="province_id" class="form-control" id="select2" disabled>
@@ -116,16 +99,6 @@
                         <label class="col-form-label">Biaya Deposit</label>
                         <input type="number" name="deposit" class="form-control @error('deposit') is-invalid @enderror" value="{{$edit->deposit}}" placeholder="Biaya Deposit">
                         @error('deposit')
-                          <div class="invalid-feedback">
-                            <strong>{{ $message }}</strong>
-                          </div>
-                        @enderror
-                    </div>
-
-                    <div class="col-sm-3">
-                        <label class="col-form-label">Biaya Admin</label>
-                        <input type="number" name="biaya_admin" class="form-control @error('biaya_admin') is-invalid @enderror" value="{{$edit->biaya_admin}}" placeholder="Biaya Admin">
-                        @error('biaya_admin')
                           <div class="invalid-feedback">
                             <strong>{{ $message }}</strong>
                           </div>

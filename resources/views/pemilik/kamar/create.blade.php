@@ -24,19 +24,7 @@
                         </div>
                       @enderror
                   </div>
-                  <div class="col-sm-3">
-                      <label class="col-form-label">Kategori</label>
-                      <select name="kategori" class="form-control @error('kategori') is-invalid @enderror">
-                          <option value="">--Kategori Kamar--</option>
-                          <option value="Kost" {{old('kategori') == 'Kost' ? 'selected' : ''}} >Kost</option>
-                          <option value="Apartment" {{old('kategori') == 'Apartment' ? 'selected' : ''}}>Apartment</option>
-                      </select>
-                      @error('kategori')
-                        <div class="invalid-feedback">
-                          <strong>{{ $message }}</strong>
-                        </div>
-                      @enderror
-                  </div>
+
                   <div class="col-sm-3">
                       <label class="col-form-label">Jenis Kamar</label>
                       <select name="jenis_kamar" class="form-control @error('jenis_kamar') is-invalid @enderror">
@@ -103,19 +91,15 @@
                     @enderror
                 </div>
 
-                  <div class="col-sm-3">
-                      <label class="col-form-label">Biaya Listrik</label>
-                      <select name="listrik" class="form-control @error('listrik') is-invalid @enderror">
-                          <option value="">-- Listrik Kamar --</option>
-                          <option value="1" {{old('listrik') == '1' ? 'selected' : ''}}>Termasuk Listrik</option>
-                          <option value="0" {{old('listrik') == '0' ? 'selected' : ''}}>Tidak Termasuk Listrik</option>
-                      </select>
-                      @error('listrik')
-                        <div class="invalid-feedback">
-                          <strong>{{ $message }}</strong>
-                        </div>
-                      @enderror
-                  </div>
+                <div class="col-sm-3">
+                  <label class="col-form-label">Biaya Deposit</label>
+                  <input type="number" name="deposit" class="form-control @error('deposit') is-invalid @enderror" value="{{old('deposit')}}" placeholder="Biaya Deposit">
+                  @error('deposit')
+                    <div class="invalid-feedback">
+                      <strong>{{ $message }}</strong>
+                    </div>
+                  @enderror
+              </div>
 
                   <div class="col-sm-4">
                       <label class="col-form-label">Provinsi</label>
@@ -144,16 +128,6 @@
                       <label class="col-form-label">District</label>
                       <select name="district_id" class="form-control select2  @error('district_id') is-invalid @enderror" id="district"></select>
                       @error('district_id')
-                        <div class="invalid-feedback">
-                          <strong>{{ $message }}</strong>
-                        </div>
-                      @enderror
-                  </div>
-
-                  <div class="col-sm-4">
-                      <label class="col-form-label">Biaya Deposit</label>
-                      <input type="number" name="deposit" class="form-control @error('deposit') is-invalid @enderror" value="{{old('deposit')}}" placeholder="Biaya Deposit">
-                      @error('deposit')
                         <div class="invalid-feedback">
                           <strong>{{ $message }}</strong>
                         </div>

@@ -75,7 +75,7 @@ class KamarService {
       $kamar->ket_lain        = $params->ket_lain;
       $kamar->ket_biaya       = $params->ket_biaya;
       $kamar->desc            = $params->desc;
-      $kamar->kategori        = $params->kategori;
+      $kamar->kategori        = 'Kost';
       $kamar->book            = $params->book;
       $kamar->bg_foto         = $nama_foto;
       $kamar->status          = 1;
@@ -191,15 +191,12 @@ class KamarService {
       $kamar->nama_kamar  = $params->nama_kamar;
       $kamar->jenis_kamar = $params->jenis_kamar;
       $kamar->luas_kamar  = $params->luas_kamar;
-      $kamar->stok_kamar  = $params->stok_kamar;
-      $kamar->sisa_kamar  = $kamar->stok_kamar;
       $kamar->harga_kamar = $params->harga_kamar;
+      $kamar->harga_kamar_berdua = $params->harga_kamar_berdua;
       $kamar->deposit     = $params->deposit;
-      $kamar->biaya_admin = $params->biaya_admin;
       $kamar->ket_lain    = $params->ket_lain;
       $kamar->ket_biaya   = $params->ket_biaya;
       $kamar->desc        = $params->desc;
-      $kamar->kategori    = $params->kategori;
       $kamar->book        = $params->book;
       $kamar->save();
 

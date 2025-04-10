@@ -25,13 +25,12 @@ class KamarRequest extends FormRequest
     {
         return [
           'nama_kamar'            => 'required|max:100|unique:kamars',
-          'kategori'              => 'required',
           'jenis_kamar'           => 'required',
           'bg_foto'               => 'required|image|mimes:jpeg,png,jpg|max:2048',
           'book'                  => 'required',
           'luas_kamar'            => 'required',
           'harga_kamar'           => 'required|numeric',
-          'listrik'               => 'required',
+          'harga_kamar_berdua'           => 'required|numeric',
           'province_id'           => 'required',
           'regency_id'            => 'required',
           'district_id'           => 'required',
